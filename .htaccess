@@ -1,0 +1,16 @@
+RewriteEngine On
+# RewriteBase /
+
+# Ignorar diretórios e arquivos existentes
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+
+# Evitar reescrita quando a solicitação já está direcionada para index.php
+# RewriteCond %{REQUEST_URI} !^/public/index\.php
+
+# Redirecionar todas as outras solicitações para index.php
+# RewriteRule ^(.*)$ /public/index.php/$1 [L,QSA]
+
+RewriteCond %{REQUEST_URI} !public/
+RewriteRule (.*) public/$1 [L]
+

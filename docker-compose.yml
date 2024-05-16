@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  webserver:
+    build: .
+    container_name: patinhas_app
+    env_file: .env
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+  database:
+    image: arm64v8/mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: patinhas_db
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: patinhas
+      MYSQL_USER: wellington
+      MYSQL_PASSWORD: Univesp2022
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: patinhas_phpmyadmin
+    environment:
+      PMA_HOST: database
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "8081:80"
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+
+networks:
+  app-network:
+    driver: bridge
