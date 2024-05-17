@@ -13,7 +13,6 @@ class PetController extends Controller
 
     public function index()
     {
-        // Implementar lógica para exibir todos os pets
         $pets = $this->petModel->getAllPets();
         // Exemplo: include_once __DIR__ . '/../views/pets/index.php';
     }
@@ -21,7 +20,7 @@ class PetController extends Controller
     public function show($id)
     {
         // Implementar lógica para exibir um pet específico
-        $pet = $this->petModel->getPetById($id);
+        $pet = $this->petModel->getById($id);
         // Exemplo: include_once __DIR__ . '/../views/pets/show.php';
     }
 
@@ -34,7 +33,7 @@ class PetController extends Controller
     public function store($data)
     {
         // Implementar lógica para armazenar um novo pet no banco de dados
-        $this->petModel->createPet($data);
+        $this->petModel->create($data);
         // Redirecionar para a página de listagem de pets após a criação
         header('Location: /pets');
         exit();
@@ -43,14 +42,14 @@ class PetController extends Controller
     public function edit($id)
     {
         // Implementar lógica para exibir o formulário de edição de pet
-        $pet = $this->petModel->getPetById($id);
+        $pet = $this->petModel->getById($id);
         // Exemplo: include_once __DIR__ . '/../views/pets/edit.php';
     }
 
     public function update($id, $data)
     {
         // Implementar lógica para atualizar um pet no banco de dados
-        $this->petModel->updatePet($id, $data);
+        $this->petModel->update($id, $data);
         // Redirecionar para a página de listagem de pets após a atualização
         header('Location: /pets');
         exit();
@@ -59,7 +58,7 @@ class PetController extends Controller
     public function delete($id)
     {
         // Implementar lógica para excluir um pet do banco de dados
-        $this->petModel->deletePet($id);
+        $this->petModel->delete($id);
         // Redirecionar para a página de listagem de pets após a exclusão
         header('Location: /pets');
         exit();

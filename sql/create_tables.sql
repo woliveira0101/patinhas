@@ -1,11 +1,13 @@
 CREATE TABLE `address`  (
   `address_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL COMMENT 'FK',
   `zip_code` varchar(9) NULL,
   `street_name` varchar(70) NULL DEFAULT NULL,
+  `address_number` varchar(10) NULL DEFAULT NULL,
+  `address_complement` varchar(255) NULL DEFAULT NULL,
   `neighboorhood` varchar(100) NULL DEFAULT NULL,
   `city_name` varchar(100) NOT NULL,
   `state_name` varchar(2) NULL DEFAULT NULL,
-  `address_complement` varchar(255) NULL DEFAULT NULL,
   PRIMARY KEY (`address_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
@@ -79,7 +81,6 @@ CREATE TABLE `question_answers`  (
 
 CREATE TABLE `users`  (
   `user_id` int NOT NULL AUTO_INCREMENT,
-  `address_id` int NOT NULL COMMENT 'FK',
   `user_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `phone_number` varchar(32) NOT NULL,
@@ -93,6 +94,7 @@ CREATE TABLE `users`  (
   PRIMARY KEY (`user_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8;
 
+ALTER TABLE `address` ADD CONSTRAINT `fk_address_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 ALTER TABLE `adoptions` ADD CONSTRAINT `fk_adoptions_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 ALTER TABLE `adoptions` ADD CONSTRAINT `fk_adoptions_pets` FOREIGN KEY (`pet_id`) REFERENCES `pets` (`id`) ON DELETE CASCADE;
 ALTER TABLE `donations` ADD CONSTRAINT `fk_donors_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
@@ -100,5 +102,4 @@ ALTER TABLE `donations` ADD CONSTRAINT `fk_donors_pets` FOREIGN KEY (`pet_id`) R
 ALTER TABLE `form_questions` ADD CONSTRAINT `fk_questions_adoptions` FOREIGN KEY (`adoption_id`) REFERENCES `adoptions` (`adoption_id`) ON DELETE CASCADE;
 ALTER TABLE `pet_images` ADD CONSTRAINT `fk_image_pet` FOREIGN KEY (`pet_id`) REFERENCES `pets` (`pet_id`) ON DELETE CASCADE;
 ALTER TABLE `question_answers` ADD CONSTRAINT `fk_answers_questions` FOREIGN KEY (`answer_id`) REFERENCES `form_questions` (`question_id`) ON DELETE CASCADE;
-ALTER TABLE `users` ADD CONSTRAINT `fk_user_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON DELETE CASCADE;
 

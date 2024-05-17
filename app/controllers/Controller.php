@@ -4,11 +4,10 @@ class Controller {
     protected $model;
 
     public function __construct() {
-        $this->model = $this->loadModel();
+        $this->model = $this->loadModel($this->getModelName());
     }
 
-    protected function loadModel() {
-        $modelName = str_replace('Controller', 'Model', get_class($this));
+    protected function loadModel($modelName) {
         $modelFile = '../app/models/' . $modelName . '.php';
 
         if (file_exists($modelFile)) {
@@ -17,6 +16,10 @@ class Controller {
         } else {
             return null;
         }
+    }
+
+    protected function getModelName() {
+        return str_replace('Controller', 'Model', get_class($this));
     }
 
     protected function view($view, $data = []) {

@@ -76,4 +76,11 @@ class PetModel extends Model {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getAllPets() {
+        $query = "SELECT * FROM $this->table";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }    
+
 }

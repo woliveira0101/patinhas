@@ -3,7 +3,7 @@ session_start();
 
 // Carregar arquivos de configuração e classes necessárias
 require_once __DIR__ . '/../controllers/UserController.php';
-// require_once __DIR__ . '/../controllers/PetController.php';
+require_once __DIR__ . '/../controllers/PetController.php';
 // require_once __DIR__ . '/../controllers/AdoptionController.php';
 // require_once __DIR__ . '/../controllers/DonationController.php';
 // require_once __DIR__ . '/../controllers/FormQuestionController.php';
@@ -12,13 +12,13 @@ require_once __DIR__ . '/../controllers/UserController.php';
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
 // Se o usuário não estiver logado e não estiver acessando a página de login ou registro, redirecioná-lo para a página de login
-if (!isset($_SESSION['user_id']) && !in_array($uri, ['users/login', 'users/authenticate', 'users/register'])) {
-    header('Location: /users/login');
+if (!isset($_SESSION['user_id']) && !in_array($uri, ['user/login', 'user/authenticate', 'user/register'])) {
+    header('Location: /user/login');
     exit();
 }
 
 // Definir o controlador e ação padrão
-$controller = 'PropertiesController';
+$controller = 'PetController';
 $action = 'index';
 $id = null;
 
@@ -31,8 +31,8 @@ if (!empty($parts[0]) && !empty($parts[1])) {
     if (!empty($parts[2])) {
         $id = intval($parts[2]);
     }
-} elseif ($uri == 'users/register') {
-    $controller = 'UsersController';
+} elseif ($uri == 'user/register') {
+    $controller = 'UserController';
     $action = 'register';
 }
 
@@ -68,5 +68,5 @@ if (class_exists($controller) && method_exists($controller, $action)) {
 } else {
     // Enviar resposta de erro 404 (página não encontrada)
     header('HTTP/1.0 404 Not Found');
-    echo 'Página não encontrada.';
+    echo 'A página não foi encontrada.';
 }
