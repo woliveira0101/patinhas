@@ -1,6 +1,9 @@
 <?php
 
-require_once 'Model.php';
+namespace App\Models;
+
+require __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/Model.php';
 
 class PetModel extends Model {
     protected $table = 'pets';

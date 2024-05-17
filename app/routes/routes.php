@@ -1,12 +1,17 @@
 <?php
+
 session_start();
 
-// Carregar arquivos de configuração e classes necessárias
-require_once __DIR__ . '/../controllers/UserController.php';
-require_once __DIR__ . '/../controllers/PetController.php';
-// require_once __DIR__ . '/../controllers/AdoptionController.php';
-// require_once __DIR__ . '/../controllers/DonationController.php';
-// require_once __DIR__ . '/../controllers/FormQuestionController.php';
+require __DIR__ . '/../../vendor/autoload.php';
+
+use App\Controllers\PetController;
+use App\Controllers\UserController;
+use App\Controllers\AdoptionController;
+use App\Controllers\DonationController;
+use App\Controllers\FormQuestionController;
+use App\Controllers\AddressController;
+use App\Controllers\PetImageController;
+//use App\Controllers\QuestionAnswerController;
 
 // Capturar a URI e remover a barra do início e do fim
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -18,7 +23,7 @@ if (!isset($_SESSION['user_id']) && !in_array($uri, ['user/login', 'user/authent
 }
 
 // Definir o controlador e ação padrão
-$controller = 'PetController';
+$controller = 'App\\Controllers\\PetController';
 $action = 'index';
 $id = null;
 
@@ -26,13 +31,13 @@ $id = null;
 $parts = explode('/', $uri);
 
 if (!empty($parts[0]) && !empty($parts[1])) {
-    $controller = ucfirst(strtolower($parts[0])) . 'Controller';
+    $controller = 'App\\Controllers\\' . ucfirst(strtolower($parts[0])) . 'Controller';
     $action = strtolower($parts[1]);
     if (!empty($parts[2])) {
         $id = intval($parts[2]);
     }
 } elseif ($uri == 'user/register') {
-    $controller = 'UserController';
+    $controller = 'App\\Controllers\\UserController';
     $action = 'register';
 }
 

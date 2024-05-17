@@ -1,0 +1,16 @@
+{
+    "name": "root/patinhas",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Wellington Oliveira",
+            "email": "woliveira0101@gmail.com"
+        }
+    ],
+    "require": {}
+}

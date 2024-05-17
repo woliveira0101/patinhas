@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__ . '/../vendor/autoload.php';
+
 // Define o caminho base do projeto
 define('BASE_PATH', dirname(__DIR__));
 

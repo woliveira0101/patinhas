@@ -1,68 +1,56 @@
 <?php
 
+namespace App\Controllers;
+
+//require __DIR__ . '/../../vendor/autoload.php';
+
 class Controller {
-    protected $model;
-
-    public function __construct() {
-        $this->model = $this->loadModel($this->getModelName());
-    }
-
-    protected function loadModel($modelName) {
-        $modelFile = '../app/models/' . $modelName . '.php';
-
-        if (file_exists($modelFile)) {
-            require_once $modelFile;
-            return new $modelName();
-        } else {
-            return null;
-        }
-    }
-
-    protected function getModelName() {
-        return str_replace('Controller', 'Model', get_class($this));
-    }
-
+    // Método para renderizar uma view
     protected function view($view, $data = []) {
-        $viewFile = '../app/views/' . $view . '.php';
-        if (file_exists($viewFile)) {
-            extract($data);
-            require_once $viewFile;
-        } else {
-            die('View does not exist');
-        }
+        extract($data);
+        require_once "../app/views/$view.php";
     }
 
+    // Método para redirecionar para outra URL
     protected function redirect($url) {
-        header('Location: ' . $url);
+        header("Location: $url");
         exit();
     }
 
-    protected function processFormData($formData) {
-        // Implemente aqui a lógica para processar os dados do formulário
+    // Método para definir uma mensagem de sessão (flash message)
+    protected function setFlash($name, $message) {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $_SESSION[$name] = $message;
     }
 
-    protected function authenticateUser($username, $password) {
-        // Implemente aqui a lógica para autenticar o usuário
+    // Método para obter uma mensagem de sessão (flash message) e removê-la
+    protected function getFlash($name) {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        if (isset($_SESSION[$name])) {
+            $message = $_SESSION[$name];
+            unset($_SESSION[$name]);
+            return $message;
+        }
+        return null;
     }
 
-    protected function logout() {
-        // Implemente aqui a lógica para fazer logout do usuário
+    // Método para verificar se o usuário está logado
+    protected function isLoggedIn() {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        return isset($_SESSION['user_id']);
     }
 
-    protected function startSession() {
-        session_start();
+    // Método para obter o ID do usuário logado
+    protected function getUserId() {
+        if ($this->isLoggedIn()) {
+            return $_SESSION['user_id'];
+        }
+        return null;
     }
-
-    protected function destroySession() {
-        session_destroy();
-    }
-
-    protected function formatDate($date) {
-        return date('Y-m-d', strtotime($date));
-    }
-
-    protected function sanitizeString($string) {
-        return filter_var($string, FILTER_SANITIZE_STRING);
-    }
-
 }

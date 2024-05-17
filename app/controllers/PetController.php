@@ -1,6 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../models/PetModel.php';
+namespace App\Controllers;
+
+//require __DIR__ . '/../../vendor/autoload.php';
+use App\Models\PetModel;
+
+//require_once __DIR__ . '/../models/PetModel.php';
+//require_once __DIR__ . '/Controller.php';
 
 class PetController extends Controller
 {
