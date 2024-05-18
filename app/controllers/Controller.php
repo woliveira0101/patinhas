@@ -53,4 +53,19 @@ class Controller {
         }
         return null;
     }
+
+    // Método para fazer logout do sistema
+    public function logout() {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        // Destruir todas as variáveis de sessão
+        $_SESSION = [];
+        
+        // Destruir a sessão
+        session_destroy();
+        
+        // Redirecionar para a página de login
+        $this->redirect('/user/login');
+    }
 }

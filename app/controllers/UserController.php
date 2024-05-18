@@ -131,10 +131,4 @@ class UserController extends Controller {
     //     $this->view('users/login');
     // }
 
-    public function logout() {
-        session_unset();
-        session_destroy();
-        header('Location: /user/login');
-        exit();
-    }
 }

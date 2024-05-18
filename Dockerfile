@@ -37,7 +37,7 @@ RUN a2enmod headers expires rewrite
 # RUN a2enconf status
 
 # Copiar a configuração do Apache para permitir o uso do .htaccess
-# COPY .docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY .docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 

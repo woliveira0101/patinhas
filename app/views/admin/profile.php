@@ -1,20 +1,39 @@
-<h1>Meu Perfil</h1>
-<?php if (!empty($user)): ?>
-    <form action="/admin/updateProfile" method="POST" enctype="multipart/form-data">
-        <label for="user_name">Nome:</label>
-        <input type="text" id="user_name" name="user_name" value="<?php echo htmlspecialchars($user['user_name']); ?>" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil do Usuário</title>
+    <link rel="stylesheet" href="/public/css/default-style.css">
+</head>
+<body>
+    <?php include __DIR__ . '/../include/header.php'; ?>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+    <div class="profile-container">
+        <h1>Perfil do Usuário</h1>
 
-        <label for="phone_number">Telefone:</label>
-        <input type="text" id="phone_number" name="phone_number" value="<?php echo htmlspecialchars($user['phone_number']); ?>" required>
+        <?php if (isset($user['image']) && $user['image'] != null): ?>
+            <div class="user-image">
+                <img src="/uploads/<?= htmlspecialchars($user['image']) ?>" alt="Imagem do Usuário">
+            </div>
+        <?php else: ?>
+            <div class="user-image">
+                <img src="/public/images/default-profile.jpg" alt="Imagem Padrão do Usuário">
+            </div>
+        <?php endif; ?>
 
-        <label for="image">Imagem:</label>
-        <input type="file" id="image" name="image">
+        <div class="user-details">
+            <p><strong>Nome:</strong> <?= htmlspecialchars($user['user_name']) ?></p>
+            <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
+            <p><strong>Telefone:</strong> <?= htmlspecialchars($user['phone_number']) ?></p>
+            <p><strong>Login:</strong> <?= htmlspecialchars($user['login']) ?></p>
+            <p><strong>Tipo:</strong> <?= htmlspecialchars($user['type']) ?></p>
+        </div>
 
-        <button type="submit">Atualizar Perfil</button>
-    </form>
-<?php else: ?>
-    <p>Usuário não encontrado.</p>
-<?php endif; ?>
+        <a href="/user/edit/<?= htmlspecialchars($user['user_id']) ?>">Editar Perfil</a>
+        <br>
+        <a href="/admin/logout">Logout</a>
+    </div>
+
+    <?php include __DIR__ . '/../include/footer.php'; ?>
+</body>
+</html>
