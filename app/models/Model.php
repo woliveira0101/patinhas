@@ -21,8 +21,8 @@ class Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
+    public function getById($id, $idColumn = 'id') {
+        $query = "SELECT * FROM " . $this->table . " WHERE $idColumn = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
@@ -47,14 +47,14 @@ class Model {
         return $stmt->execute();
     }
 
-    public function update($id, $data) {
+    public function update($id, $data, $idColumn = 'id') {
         $setClause = "";
         foreach ($data as $key => $value) {
             $setClause .= "$key = :$key, ";
         }
         $setClause = rtrim($setClause, ", ");
 
-        $query = "UPDATE " . $this->table . " SET $setClause WHERE id = :id";
+        $query = "UPDATE " . $this->table . " SET $setClause WHERE $idColumn = :id";
 
         $stmt = $this->conn->prepare($query);
 

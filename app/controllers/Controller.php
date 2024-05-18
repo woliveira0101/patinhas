@@ -8,7 +8,7 @@ class Controller {
     // Método para renderizar uma view
     protected function view($view, $data = []) {
         extract($data);
-        require_once "../app/views/$view.php";
+        require __DIR__ . '/../views/' . $view . '.php';
     }
 
     // Método para redirecionar para outra URL

@@ -11,6 +11,7 @@ use App\Controllers\DonationController;
 use App\Controllers\FormQuestionController;
 use App\Controllers\AddressController;
 use App\Controllers\PetImageController;
+use App\Controllers\AdminController;
 //use App\Controllers\QuestionAnswerController;
 
 // Capturar a URI e remover a barra do início e do fim
@@ -41,6 +42,10 @@ if (!empty($parts[0]) && !empty($parts[1])) {
     $action = 'register';
 }
 
+// Depuração: Imprimir o controlador e a ação
+// echo "Controller: " . $controller . "<br>";
+// echo "Action: " . $action . "<br>";
+
 // Verificar se o controlador e a ação existem
 if (class_exists($controller) && method_exists($controller, $action)) {
     $controllerInstance = new $controller();
@@ -48,10 +53,10 @@ if (class_exists($controller) && method_exists($controller, $action)) {
     // Verificar se um ID foi fornecido e passá-lo para os métodos apropriados
     if (in_array($action, ['edit', 'show', 'delete']) && !is_null($id)) {
         $controllerInstance->$action($id);
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register'])) {
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'mydonations', 'myadoptions', 'profile'])) {
         $controllerInstance->$action();
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && in_array($action, ['register', 'update', 'authenticate', 'store'])) {
-        if (in_array($action, ['store', 'update'])) {
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && in_array($action, ['register', 'update', 'authenticate', 'store', 'updateprofile'])) {
+        if (in_array($action, ['store', 'update', 'updateprofile'])) {
             $data = json_decode(file_get_contents('php://input'), true);
             if ($action == 'update' && !is_null($id)) {
                 $controllerInstance->$action($id, $data);
