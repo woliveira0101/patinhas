@@ -33,10 +33,10 @@ class Model {
         $columns = implode(", ", array_keys($data));
         $placeholders = ":" . implode(", :", array_keys($data));
         $query = "INSERT INTO " . $this->table . " ($columns) VALUES ($placeholders)";
-
+        //var_dump($data);
         // Depuração: Exibir consulta SQL e dados
-        error_log("Consulta SQL: " . $query);
-        error_log("Dados: " . print_r($data, true));
+        //error_log("Consulta SQL: " . $query);
+        //error_log("Dados: " . print_r($data, true));
 
         $stmt = $this->conn->prepare($query);
 

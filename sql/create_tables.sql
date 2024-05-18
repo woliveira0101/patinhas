@@ -8,6 +8,8 @@ CREATE TABLE `address`  (
   `neighboorhood` varchar(100) NULL DEFAULT NULL,
   `city_name` varchar(100) NOT NULL,
   `state_name` varchar(2) NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`address_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
@@ -15,7 +17,7 @@ CREATE TABLE `adoptions`  (
   `adoption_id` int NOT NULL,
   `user_id` int NOT NULL COMMENT 'FK',
   `pet_id` int NOT NULL COMMENT 'FK',
-  `adoption_date` datetime NULL,
+  `adoption_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` enum('aprovado','reprovado','em analise') NULL DEFAULT 'em analise',
   PRIMARY KEY (`adoption_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8;
@@ -24,7 +26,7 @@ CREATE TABLE `donations`  (
   `donation_id` int NOT NULL,
   `user_id` int NOT NULL COMMENT 'FK',
   `pet_id` int NOT NULL COMMENT 'FK',
-  `donation_date` datetime NULL,
+  `donation_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`donation_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8;
 
@@ -34,8 +36,8 @@ CREATE TABLE `form_questions`  (
   `question_content` varchar(100) NOT NULL,
   `question_number` int NOT NULL,
   `question_type` varchar(30) NULL DEFAULT NULL,
-  `created_at` datetime NULL,
-  `updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`question_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8;
 
@@ -43,7 +45,7 @@ CREATE TABLE `pet_images`  (
   `image_id` int NOT NULL AUTO_INCREMENT,
   `pet_id` int NOT NULL COMMENT 'FK',
   `image` varchar(255) NULL,
-  `created_at` datetime NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`image_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8;
 
@@ -65,8 +67,8 @@ CREATE TABLE `pets`  (
   `castrated` boolean NULL DEFAULT NULL,
   `vermifuged` boolean NULL DEFAULT NULL,
   `is_adopted` boolean NULL DEFAULT NULL,
-  `created_at` datetime NULL,
-  `updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pet_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8;
 
@@ -74,8 +76,8 @@ CREATE TABLE `question_answers`  (
   `answer_id` int NOT NULL AUTO_INCREMENT,
   `question_id` int NOT NULL COMMENT 'FK',
   `answer_content` text NULL,
-  `created_at` datetime NULL DEFAULT NULL,
-  `updated_at` datetime NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`answer_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8;
 
@@ -89,8 +91,8 @@ CREATE TABLE `users`  (
   `type` enum('doador','adotante','ambos') NULL DEFAULT NULL,
   `is_active` boolean NULL DEFAULT NULL,
   `image` varchar(255) NULL DEFAULT NULL,
-  `created_at` datetime NULL,
-  `updated_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8;
 

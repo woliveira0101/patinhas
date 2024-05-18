@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-require __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/Model.php';
+use PDO;
+//require __DIR__ . '/../../vendor/autoload.php';
+//require_once __DIR__ . '/Model.php';
 
 class PetModel extends Model {
     protected $table = 'pets';
@@ -12,7 +13,7 @@ class PetModel extends Model {
         $query = "INSERT INTO $this->table (pet_name, state, city, description, type, gender, breed, age, size, colour, personality, special_care, vaccinated, castrated, vermifuged, is_adopted, created_at, updated_at) 
                   VALUES (:pet_name, :state, :city, :description, :type, :gender, :breed, :age, :size, :colour, :personality, :special_care, :vaccinated, :castrated, :vermifuged, :is_adopted, NOW(), NOW())";
 
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
         return $stmt->execute([
             'pet_name' => $data['pet_name'],
@@ -43,7 +44,7 @@ class PetModel extends Model {
                       is_adopted = :is_adopted, updated_at = NOW() 
                   WHERE pet_id = :pet_id";
 
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
         return $stmt->execute([
             'pet_name' => $data['pet_name'],
@@ -68,20 +69,20 @@ class PetModel extends Model {
 
     public function delete($id) {
         $query = "DELETE FROM $this->table WHERE pet_id = :pet_id";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->conn->prepare($query);
         return $stmt->execute(['pet_id' => $id]);
     }
 
     public function getById($id) {
         $query = "SELECT * FROM $this->table WHERE pet_id = :pet_id";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->conn->prepare($query);
         $stmt->execute(['pet_id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getAllPets() {
         $query = "SELECT * FROM $this->table";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }    

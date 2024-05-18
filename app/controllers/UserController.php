@@ -9,17 +9,35 @@ require_once __DIR__ . '/Controller.php';
 
 class UserController extends Controller {
 
+    public function login()
+    {
+        include __DIR__ . '/../views/include/header.php';
+        include __DIR__ . '/../views/users/login.php';
+        include __DIR__ . '/../views/include/footer.php';
+    }
+
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $login = $_POST['login'];
+
+            // Processar a imagem enviada
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $imagePath = $this->uploadImage($_FILES['image'], $login);
+            } else {
+                $imagePath = null; // ou uma imagem padrão
+            }
+
             $data = [
                 'user_name' => $_POST['user_name'],
                 'email' => $_POST['email'],
                 'phone_number' => $_POST['phone_number'],
-                'login' => $_POST['login'],
+                'login' => $login,
                 'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
                 'type' => $_POST['type'],
                 'is_active' => true,
-                'image' => isset($_POST['image']) ? $_POST['image'] : null
+                'image' => $imagePath,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ];
 
             $userModel = new UserModel();
@@ -35,13 +53,45 @@ class UserController extends Controller {
         $this->view('users/register');
     }
 
-    public function login() {
+    private function uploadImage($file, $login) {
+        $targetDir = "../app/uploads/";
+        $timestamp = date('YmdHis');
+        $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+        $newFileName = $login . "_" . $timestamp . "." . $extension;
+        $targetFile = $targetDir . $newFileName;
+
+        // Verificar se o arquivo é uma imagem real
+        $check = getimagesize($file["tmp_name"]);
+        if ($check === false) {
+            throw new \Exception("O arquivo não é uma imagem.");
+        }
+
+        // Verificar o tamanho do arquivo (opcional)
+        if ($file["size"] > 1000000) { // Exemplo: 500KB
+            throw new \Exception("Desculpe, o arquivo é muito grande.");
+        }
+
+        // Permitir certos formatos de arquivo
+        $allowedFormats = ["jpg", "jpeg", "png", "gif"];
+        if (!in_array($extension, $allowedFormats)) {
+            throw new \Exception("Desculpe, apenas arquivos JPG, JPEG, PNG e GIF são permitidos.");
+        }
+
+        // Tentar mover o arquivo enviado para o diretório de destino
+        if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
+            throw new \Exception("Desculpe, ocorreu um erro ao fazer upload do arquivo.");
+        }
+
+        return $newFileName;
+    }
+
+    public function authenticate() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $email = $_POST['email'];
+            $login = $_POST['login'];
             $password = $_POST['password'];
 
             $userModel = new UserModel();
-            $user = $userModel->getUserByEmail($email);
+            $user = $userModel->getUserByUsername($login);
 
             if ($user && password_verify($password, $user['password'])) {
                 if (!isset($_SESSION)) {
