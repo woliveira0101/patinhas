@@ -43,10 +43,10 @@ class UserController extends Controller {
             $userModel = new UserModel();
             if ($userModel->create($data)) {
                 $this->setFlash('success', 'Usuário registrado com sucesso!');
-                $this->redirect('/login');
+                $this->redirect('/user/login');
             } else {
                 $this->setFlash('error', 'Erro ao registrar usuário.');
-                $this->redirect('/register');
+                $this->redirect('/user/register');
             }
         }
 
@@ -86,33 +86,55 @@ class UserController extends Controller {
     }
 
     public function authenticate() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $login = $_POST['login'];
-            $password = $_POST['password'];
+        $login = $_POST['login'];
+        $password = $_POST['password'];
 
-            $userModel = new UserModel();
-            $user = $userModel->getUserByUsername($login);
+        $userModel = new UserModel();
+        $user = $userModel->authenticate($login, $password);
 
-            if ($user && password_verify($password, $user['password'])) {
-                if (!isset($_SESSION)) {
-                    session_start();
-                }
-                $_SESSION['user_id'] = $user['user_id'];
-                $this->redirect('/dashboard');
-            } else {
-                $this->setFlash('error', 'Email ou senha inválidos.');
-                $this->redirect('/login');
-            }
+        if ($user) {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['user_login'] = $user['login'];
+            $_SESSION['user_type'] = $user['type'];
+
+            // Redirecionar para o dashboard após login bem-sucedido
+            header('Location: /admin/dashboard');
+            exit();
+        } else {
+            // Login falhou, redirecionar de volta para a página de login com uma mensagem de erro
+            $_SESSION['error_message'] = 'Login ou senha incorretos';
+            header('Location: /user/login');
+            exit();
         }
-
-        $this->view('users/login');
     }
+    
+    // public function authenticate() {
+    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //         $login = $_POST['login'];
+    //         $password = $_POST['password'];
+
+    //         $userModel = new UserModel();
+    //         $user = $userModel->getUserByUsername($login);
+
+    //         if ($user && password_verify($password, $user['password'])) {
+    //             if (!isset($_SESSION)) {
+    //                 session_start();
+    //             }
+    //             $_SESSION['user_id'] = $user['user_id'];
+    //             $this->redirect('/dashboard');
+    //         } else {
+    //             $this->setFlash('error', 'Email ou senha inválidos.');
+    //             $this->redirect('/login');
+    //         }
+    //     }
+
+    //     $this->view('users/login');
+    // }
 
     public function logout() {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
+        session_unset();
         session_destroy();
-        $this->redirect('/login');
+        header('Location: /user/login');
+        exit();
     }
 }

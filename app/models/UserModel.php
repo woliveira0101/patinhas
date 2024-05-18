@@ -9,13 +9,21 @@ class UserModel extends Model {
 
     // Método para autenticar um usuário
     public function authenticate($login, $password) {
-        $hashedPassword = hash('sha256', $password);
-        $sql = "SELECT * FROM $this->table WHERE (email = :login OR login = :login) AND password = :password";
+        $sql = "SELECT * FROM {$this->table} WHERE email = :login OR login = :login";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':login', $login);
-        $stmt->bindParam(':password', $hashedPassword);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Verificar se o usuário existe e se a senha é correta
+        if ($user && password_verify($password, $user['password'])) {
+            //var_dump($user);
+            unset($user['password']);
+            return $user;
+        }
+
+        return false;
     }
 
     // Método para obter um usuário pelo email
