@@ -65,7 +65,7 @@ class Controller {
         // Destruir a sessão
         session_destroy();
         
-        // Redirecionar para a página de login
-        $this->redirect('/user/login');
+        // Redirecionar para a página...
+        $this->redirect('/');
     }
 }

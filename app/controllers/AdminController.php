@@ -7,10 +7,11 @@ use App\Models\DonationModel;
 use App\Models\AdoptionModel;
 
 class AdminController extends Controller {
-    // public function dashboard() {
-    //     // Renderizar a view do dashboard
-    //     $this->view('admin/dashboard');
-    // }
+    
+    public function dashboard() {
+        // Renderizar a view do dashboard
+        $this->view('admin/dashboard');
+    }
 
     public function myDonations() {
         $donationModel = new DonationModel();

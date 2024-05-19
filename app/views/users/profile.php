@@ -1,52 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Perfil do Usuário</title>
-    <link rel="stylesheet" href="/public/assets/css/default-style.css">
-</head>
-<body>
-    <?php include __DIR__ . '/../include/header.php'; ?>
+<?php include __DIR__ . '/../include/header.php'; ?>
 
     <div class="profile-container">
         <h1>Perfil do Usuário</h1>
 
         <form action="/user/update/<?= htmlspecialchars($user['user_id']) ?>" method="post" enctype="multipart/form-data">
             <?php
-            // Debugar
-            // $dir = __DIR__ . '/../../uploads/';
-            // $file = $dir . $user['image'];
-            // echo $file;
-            // if (file_exists($dir)) {
-            //     echo "Directory exists.\n";
-            //     if (is_readable($dir)) {
-            //         echo "Directory is readable.\n";
-            //         if (file_exists($file)) {
-            //             echo "File exists.\n";
-            //             if (is_readable($file)) {
-            //                 echo "File is readable.\n";
-            //             } else {
-            //                 echo "File is not readable.\n";
-            //             }
-            //         } else {
-            //             echo "File does not exist.\n";
-            //         }
-            //     } else {
-            //         echo "Directory is not readable.\n";
-            //     }
-            // } else {
-            //     echo "Directory does not exist.\n";
-            // }
-            //
             $imagePath = realpath(__DIR__ . '/../../uploads/' . $user['image']);
-            //echo "Image path: $imagePath";
             if (isset($user['image']) && $user['image'] != null && file_exists($imagePath)): ?>
                 <div class="user-image">
-                    <img src="/uploads/<?= htmlspecialchars($user['image']) ?>" alt="Imagem do Usuário">
+                    <img src="/uploads/<?= htmlspecialchars($user['image']) ?>" alt="Imagem do Usuário" class="profile-img">
                 </div>
             <?php else: ?>
                 <div class="user-image">
-                    <img src="/public/assets/img/default-profile.jpg" alt="Imagem Padrão do Usuário">
+                    <img src="/assets/img/default-profile.jpg" alt="Imagem Padrão do Usuário" class="profile-img">
                 </div>
             <?php endif; ?>
             <div>
@@ -68,7 +34,11 @@
                 <input type="text" name="login" id="login" value="<?= htmlspecialchars($user['login']) ?>" disabled>
 
                 <label for="type"><strong>Tipo:</strong></label>
-                <input type="text" name="type" id="type" value="<?= htmlspecialchars($user['type']) ?>">
+                <select name="type" id="type">
+                    <option value="doador" <?= $user['type'] == 'doador' ? 'selected' : '' ?>>Doador</option>
+                    <option value="adotante" <?= $user['type'] == 'adotante' ? 'selected' : '' ?>>Adotante</option>
+                    <option value="ambos" <?= $user['type'] == 'ambos' ? 'selected' : '' ?>>Ambos</option>
+                </select>
             </div>
 
             <button type="submit">Salvar Alterações</button>
@@ -79,5 +49,3 @@
     </div>
 
     <?php include __DIR__ . '/../include/footer.php'; ?>
-</body>
-</html>

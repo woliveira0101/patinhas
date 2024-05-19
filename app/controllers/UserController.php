@@ -11,15 +11,15 @@ class UserController extends Controller {
 
     public function login()
     {
-        include __DIR__ . '/../views/include/header.php';
+        //include __DIR__ . '/../views/include/header.php';
         include __DIR__ . '/../views/users/login.php';
-        include __DIR__ . '/../views/include/footer.php';
+        //include __DIR__ . '/../views/include/footer.php';
     }
 
-    public function dashboard() {
-        // Renderizar a view do dashboard
-        $this->view('users/dashboard');
-    }
+    // public function dashboard() {
+    //     // Renderizar a view do dashboard
+    //     $this->view('admin/dashboard');
+    // }
 
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -117,7 +117,7 @@ class UserController extends Controller {
             $_SESSION['user_type'] = $user['type'];
 
             // Redirecionar para o dashboard após login bem-sucedido
-            header('Location: /user/dashboard');
+            header('Location: /admin/dashboard');
             exit();
         } else {
             // Login falhou, redirecionar de volta para a página de login com uma mensagem de erro

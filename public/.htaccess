@@ -1,6 +1,10 @@
 RewriteEngine On
-RewriteBase /
-Options All -Indexes
-RewriteCond %{REQUEST_FILENAME} !-f 
+
+# Exceções para arquivos estáticos
+RewriteCond %{REQUEST_URI} ^/uploads/ [NC]
+RewriteRule ^ - [L]
+
+# Redirecionar todas as outras requisições para index.php
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?route=/$1 [L,QSA]
+RewriteRule ^ index.php [L]
