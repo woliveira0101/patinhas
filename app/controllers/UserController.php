@@ -16,6 +16,11 @@ class UserController extends Controller {
         include __DIR__ . '/../views/include/footer.php';
     }
 
+    public function dashboard() {
+        // Renderizar a view do dashboard
+        $this->view('users/dashboard');
+    }
+
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $login = $_POST['login'];
@@ -85,6 +90,20 @@ class UserController extends Controller {
         return $newFileName;
     }
 
+    // Função para processar e salvar a imagem
+    // private function uploadImage($file, $login) {
+    //     $targetDir = __DIR__ . '/../uploads/';
+    //     $timestamp = date('YmdHis');
+    //     $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    //     $targetFile = $targetDir . $login . '_' . $timestamp . '.' . $fileExtension;
+
+    //     if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+    //         return '/uploads/' . $login . '_' . $timestamp . '.' . $fileExtension;
+    //     } else {
+    //         return null;
+    //     }
+    // }
+
     public function authenticate() {
         $login = $_POST['login'];
         $password = $_POST['password'];
@@ -98,7 +117,7 @@ class UserController extends Controller {
             $_SESSION['user_type'] = $user['type'];
 
             // Redirecionar para o dashboard após login bem-sucedido
-            header('Location: /admin/dashboard');
+            header('Location: /user/dashboard');
             exit();
         } else {
             // Login falhou, redirecionar de volta para a página de login com uma mensagem de erro
@@ -107,5 +126,58 @@ class UserController extends Controller {
             exit();
         }
     }
+
+    public function profile() {
+        if (!$this->isLoggedIn()) {
+            $this->redirect('/user/login');
+        }
+
+        $userId = $this->getUserId();
+        $userModel = new UserModel();
+        $user = $userModel->getById($userId, 'user_id');
+
+        if ($user) {
+            $this->view('users/profile', ['user' => $user]);
+        } else {
+            $this->setFlash('error', 'Usuário não encontrado.');
+            $this->redirect('/user/login');
+        }
+    }
+
+    public function update($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userModel = new UserModel();
+            $user = $userModel->getById($_SESSION['user_id'], 'user_id');
+    
+            $data = [
+                'user_name' => $_POST['user_name'],
+                'email' => $_POST['email'],
+                'phone_number' => $_POST['phone_number'],
+                'type' => $_POST['type'],
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+    
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+                $newImagePath = $this->uploadImage($_FILES['image'], $_SESSION['user_login']);
+                if ($newImagePath) {
+                    // Excluir imagem antiga
+                    // echo __DIR__ . '/../uploads/' . $user['image'];
+                    if (!empty($user['image']) && file_exists(__DIR__ . '/../uploads/' . $user['image'])) {
+                        unlink(__DIR__ . '/../uploads/' . $user['image']);
+                    }
+                    $data['image'] = $newImagePath;
+                }
+            }
+
+            if ($userModel->update($_SESSION['user_id'], $data, 'user_id')) {
+                $this->setFlash('success', 'Perfil atualizado com sucesso!');
+            } else {
+                $this->setFlash('error', 'Erro ao atualizar perfil.');
+            }
+
+            $this->redirect('/user/profile');
+        }
+    }
+    
 
 }

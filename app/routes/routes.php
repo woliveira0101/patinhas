@@ -43,8 +43,8 @@ if (!empty($parts[0]) && !empty($parts[1])) {
 }
 
 // Depuração: Imprimir o controlador e a ação
-echo "Controller: " . $controller . "<br>";
-echo "Action: " . $action . "<br>";
+// echo "Controller: " . $controller . "<br>";
+// echo "Action: " . $action . "<br>";
 
 // Verificar se o controlador e a ação existem
 if (class_exists($controller) && method_exists($controller, $action)) {
