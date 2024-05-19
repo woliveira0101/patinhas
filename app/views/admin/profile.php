@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Perfil do Usuário</title>
-    <link rel="stylesheet" href="/public/css/default-style.css">
+    <link rel="stylesheet" href="/public/assets/css/default-style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../include/header.php'; ?>
@@ -17,7 +17,7 @@
             </div>
         <?php else: ?>
             <div class="user-image">
-                <img src="/public/images/default-profile.jpg" alt="Imagem Padrão do Usuário">
+                <img src="/public/assets/img/default-profile.jpg" alt="Imagem Padrão do Usuário">
             </div>
         <?php endif; ?>
 

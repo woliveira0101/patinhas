@@ -107,28 +107,5 @@ class UserController extends Controller {
             exit();
         }
     }
-    
-    // public function authenticate() {
-    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //         $login = $_POST['login'];
-    //         $password = $_POST['password'];
-
-    //         $userModel = new UserModel();
-    //         $user = $userModel->getUserByUsername($login);
-
-    //         if ($user && password_verify($password, $user['password'])) {
-    //             if (!isset($_SESSION)) {
-    //                 session_start();
-    //             }
-    //             $_SESSION['user_id'] = $user['user_id'];
-    //             $this->redirect('/dashboard');
-    //         } else {
-    //             $this->setFlash('error', 'Email ou senha inválidos.');
-    //             $this->redirect('/login');
-    //         }
-    //     }
-
-    //     $this->view('users/login');
-    // }
 
 }

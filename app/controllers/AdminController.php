@@ -44,13 +44,6 @@ class AdminController extends Controller {
             $this->redirect('/user/login');
         }
     }
-    // public function profile() {
-    //     $userModel = new UserModel();
-    //     $user = $userModel->getById($_SESSION['user_id'], 'user_id');
-
-    //     // Passar os dados do usuário para a view
-    //     $this->view('admin/profile', ['user' => $user]);
-    // }
 
     public function updateProfile() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -99,20 +92,4 @@ class AdminController extends Controller {
         }
     }
 
-    // Função para definir mensagem flash
-    // private function setFlash($type, $message) {
-    //     $_SESSION[$type . '_message'] = $message;
-    // }
-
-    // Função para redirecionar
-    // private function redirect($url) {
-    //     header('Location: ' . $url);
-    //     exit();
-    // }
-
-    // Função para renderizar a view
-    // private function view($view, $data = []) {
-    //     extract($data);
-    //     require __DIR__ . '/../views/' . $view . '.php';
-    // }
 }
