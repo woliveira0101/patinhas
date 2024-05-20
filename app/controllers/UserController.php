@@ -16,20 +16,14 @@ class UserController extends Controller {
         //include __DIR__ . '/../views/include/footer.php';
     }
 
-    // public function dashboard() {
-    //     // Renderizar a view do dashboard
-    //     $this->view('admin/dashboard');
-    // }
-
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $login = $_POST['login'];
 
-            // Processar a imagem enviada
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 $imagePath = $this->uploadImage($_FILES['image'], $login);
             } else {
-                $imagePath = null; // ou uma imagem padrão
+                $imagePath = null;
             }
 
             $data = [
@@ -47,8 +41,12 @@ class UserController extends Controller {
 
             $userModel = new UserModel();
             if ($userModel->create($data)) {
-                $this->setFlash('success', 'Usuário registrado com sucesso!');
-                $this->redirect('/user/login');
+                $_SESSION['user_id'] = $userModel->getLastInsertId();
+                $_SESSION['user_login'] = $login;
+                $_SESSION['user_type'] = $_POST['type'];
+
+                $redirectUrl = $this->getFlash('redirect_after_login') ?? '/user/profile';
+                $this->redirect($redirectUrl);
             } else {
                 $this->setFlash('error', 'Erro ao registrar usuário.');
                 $this->redirect('/user/register');

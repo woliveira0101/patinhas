@@ -14,10 +14,14 @@ class AdminController extends Controller {
     }
 
     public function myDonations() {
-        $donationModel = new DonationModel();
-        $donations = $donationModel->getById($_SESSION['user_id'], 'donation_id');
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('/user/login');
+        }
 
-        // Passar os dados das doações para a view
+        $userId = $_SESSION['user_id'];
+        $donationModel = new DonationModel();
+        $donations = $donationModel->getByUserId($userId);
+
         $this->view('admin/mydonations', ['donations' => $donations]);
     }
 

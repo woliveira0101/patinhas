@@ -33,18 +33,17 @@ class Model {
         $columns = implode(", ", array_keys($data));
         $placeholders = ":" . implode(", :", array_keys($data));
         $query = "INSERT INTO " . $this->table . " ($columns) VALUES ($placeholders)";
-        //var_dump($data);
-        // Depuração: Exibir consulta SQL e dados
-        //error_log("Consulta SQL: " . $query);
-        //error_log("Dados: " . print_r($data, true));
-
         $stmt = $this->conn->prepare($query);
 
         foreach ($data as $key => &$value) {
             $stmt->bindParam(":$key", $value);
         }
 
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return $this->conn->lastInsertId();
+        }
+
+        return false;
     }
 
     public function update($id, $data, $idColumn = 'id') {
@@ -66,10 +65,14 @@ class Model {
         return $stmt->execute();
     }
 
-    public function delete($id) {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
+    public function delete($id, $idColumn = 'id') {
+        $query = "DELETE FROM " . $this->table . " WHERE $idColumn = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
+    }
+
+    public function getLastInsertId() {
+        return $this->conn->lastInsertId();
     }
 }
