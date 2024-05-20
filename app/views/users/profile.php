@@ -6,7 +6,7 @@
         <form action="/user/update/<?= htmlspecialchars($user['user_id']) ?>" method="post" enctype="multipart/form-data">
             <?php
             $imagePath = __DIR__ . '/../../../public/assets/img/profiles/' . $user['image'];
-            $webImagePath = '/assets/img/profiles/' . $user['image']; echo $webImagePath;
+            $webImagePath = '/assets/img/profiles/' . $user['image'];
             if (isset($user['image']) && $user['image'] != null && file_exists($imagePath)): ?>
                 <div class="user-image">
                     <img src="<?= htmlspecialchars($webImagePath) ?>" alt="Imagem do Usuário" class="profile-img">
@@ -38,8 +38,10 @@
             </div>
             <button type="submit">Salvar Alterações</button>
         </form>
-        <br>
+        <!-- <br>
         <a href="/user/logout">Logout</a>
+        <br> -->
+        <a href="/address/list" class="btn btn-primary">Meus Endereços</a>
     </div>
 </div>
 

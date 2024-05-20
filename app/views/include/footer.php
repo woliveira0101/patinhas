@@ -1,8 +1,9 @@
-<footer class="container-fluid bg-light fixed-bottom" style="box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.5);">
+<footer class="container-fluid bg-light" style="box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.5);">
     <div class="container">
         <div class="row">
-            <div class="col mt-3"><img src="/assets/img/logo.png" alt="Logo Patinhas e Corações"
-                                        style="height: 150px;"></div>
+            <div class="col mt-3">
+                <img src="/assets/img/logo.png" alt="Logo Patinhas e Corações" style="height: 150px;">
+            </div>
             <div class="col">
                 <h4 class="h3 my-3 text-dark">Mapa do Site</h4>
                 <ul class="list-unstyled mb-5">

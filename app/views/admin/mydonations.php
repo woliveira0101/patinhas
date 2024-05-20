@@ -20,6 +20,7 @@
                         <th>Raça do Animal</th>
                         <th>Status do Pedido de Adoção</th>
                         <th>Ver Pedidos de Adoção</th>
+                        <th>Editar Doação</th>
                         <th>Excluir Doação</th>
                     </tr>
                 </thead>
@@ -32,6 +33,9 @@
                         <td><?= htmlspecialchars($donation['breed']) ?></td>
                         <td><?= htmlspecialchars($donation['status'] ?? 'Em análise') ?></td>
                         <td><a type="button" class="btn btn-warning text-dark btn-sm" href="visualiza_ped_adocao.html">Ver Pedidos</a></td>
+                        <td>
+                            <a href="/donation/edit/<?= $donation['donation_id'] ?>" class="btn btn-primary btn-sm">Editar</a>
+                        </td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" onclick="deleteDonation(<?= $donation['donation_id'] ?>)">Excluir</button>
                         </td>

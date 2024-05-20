@@ -159,4 +159,8 @@ class UserController extends Controller {
     public function address() {
         $this->view('address/registration');
     }
+
+    public function addressList() {
+        $this->view('address/list');
+    }
 }

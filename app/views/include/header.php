@@ -33,7 +33,7 @@
                     <a class="nav-link" href="/pets">Quero adotar</a>
                 </li>
                 <li class="nav-item px-2">
-                    <a class="nav-link" href="/donations/create">Quero doar</a>
+                    <a class="nav-link" href="/donation/create">Quero doar</a>
                 </li>
                 <li class="nav-item px-2 btn-group">
                     <?php if (isset($_SESSION['user_login'])): ?>
