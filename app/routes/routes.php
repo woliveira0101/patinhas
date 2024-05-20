@@ -45,7 +45,7 @@ if (class_exists($controller) && method_exists($controller, $action)) {
     $controllerInstance = new $controller();
     if (in_array($action, ['edit', 'show', 'delete']) && !is_null($id)) {
         $controllerInstance->$action($id);
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'profile', 'mydonations'])) {
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'profile', 'mydonations', 'address'])) {
         $controllerInstance->$action();
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && in_array($action, ['register', 'update', 'authenticate', 'store'])) {
         $data = json_decode(file_get_contents('php://input'), true);

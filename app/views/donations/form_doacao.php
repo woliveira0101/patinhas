@@ -1,4 +1,6 @@
 <?php include __DIR__ . '/../include/header.php'; ?>
+
+<div class="main-content">
 <section class="container">
     <div class="row">
         <div class="col-8 col-md-10 mt-2 mb-3 mx-auto py-3 px-md-5 border rounded bg-body-tertiary"
@@ -128,5 +130,6 @@
         </div>
     </div>
 </section>
+</div>
 
 <?php include __DIR__ . '/../include/footer.php'; ?>

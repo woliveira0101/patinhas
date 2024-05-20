@@ -2,18 +2,15 @@
 
 namespace App\Controllers;
 
-//require __DIR__ . '/../../vendor/autoload.php';
 use App\Models\UserModel;
+use App\Models\AddressModel;
 
 require_once __DIR__ . '/Controller.php';
 
 class UserController extends Controller {
 
-    public function login()
-    {
-        //include __DIR__ . '/../views/include/header.php';
+    public function login() {
         include __DIR__ . '/../views/users/login.php';
-        //include __DIR__ . '/../views/include/footer.php';
     }
 
     public function register() {
@@ -27,7 +24,7 @@ class UserController extends Controller {
             }
 
             $data = [
-                'user_name' => $_POST['user_name'],
+                'name' => $_POST['name'],
                 'email' => $_POST['email'],
                 'phone_number' => $_POST['phone_number'],
                 'login' => $login,
@@ -45,7 +42,7 @@ class UserController extends Controller {
                 $_SESSION['user_login'] = $login;
                 $_SESSION['user_type'] = $_POST['type'];
 
-                $redirectUrl = $this->getFlash('redirect_after_login') ?? '/user/profile';
+                $redirectUrl = $this->getFlash('redirect_after_login') ?? '/user/address';
                 $this->redirect($redirectUrl);
             } else {
                 $this->setFlash('error', 'Erro ao registrar usuário.');
@@ -53,54 +50,40 @@ class UserController extends Controller {
             }
         }
 
-        $this->view('users/register');
+        if (isset($_GET['address'])) {
+            $this->view('address/registration');
+        } else {
+            $this->view('users/register');
+        }
     }
 
     private function uploadImage($file, $login) {
-        $targetDir = "../app/uploads/";
+        $targetDir = __DIR__ . '/../../public/assets/img/profiles/';
         $timestamp = date('YmdHis');
         $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
         $newFileName = $login . "_" . $timestamp . "." . $extension;
         $targetFile = $targetDir . $newFileName;
 
-        // Verificar se o arquivo é uma imagem real
         $check = getimagesize($file["tmp_name"]);
         if ($check === false) {
             throw new \Exception("O arquivo não é uma imagem.");
         }
 
-        // Verificar o tamanho do arquivo (opcional)
-        if ($file["size"] > 1000000) { // Exemplo: 500KB
+        if ($file["size"] > 1000000) {
             throw new \Exception("Desculpe, o arquivo é muito grande.");
         }
 
-        // Permitir certos formatos de arquivo
         $allowedFormats = ["jpg", "jpeg", "png", "gif"];
         if (!in_array($extension, $allowedFormats)) {
             throw new \Exception("Desculpe, apenas arquivos JPG, JPEG, PNG e GIF são permitidos.");
         }
 
-        // Tentar mover o arquivo enviado para o diretório de destino
         if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
             throw new \Exception("Desculpe, ocorreu um erro ao fazer upload do arquivo.");
         }
 
         return $newFileName;
     }
-
-    // Função para processar e salvar a imagem
-    // private function uploadImage($file, $login) {
-    //     $targetDir = __DIR__ . '/../uploads/';
-    //     $timestamp = date('YmdHis');
-    //     $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
-    //     $targetFile = $targetDir . $login . '_' . $timestamp . '.' . $fileExtension;
-
-    //     if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-    //         return '/uploads/' . $login . '_' . $timestamp . '.' . $fileExtension;
-    //     } else {
-    //         return null;
-    //     }
-    // }
 
     public function authenticate() {
         $login = $_POST['login'];
@@ -114,11 +97,9 @@ class UserController extends Controller {
             $_SESSION['user_login'] = $user['login'];
             $_SESSION['user_type'] = $user['type'];
 
-            // Redirecionar para o dashboard após login bem-sucedido
             header('Location: /admin/dashboard');
             exit();
         } else {
-            // Login falhou, redirecionar de volta para a página de login com uma mensagem de erro
             $_SESSION['error_message'] = 'Login ou senha incorretos';
             header('Location: /user/login');
             exit();
@@ -148,7 +129,7 @@ class UserController extends Controller {
             $user = $userModel->getById($_SESSION['user_id'], 'user_id');
     
             $data = [
-                'user_name' => $_POST['user_name'],
+                'name' => $_POST['name'],
                 'email' => $_POST['email'],
                 'phone_number' => $_POST['phone_number'],
                 'type' => $_POST['type'],
@@ -158,10 +139,8 @@ class UserController extends Controller {
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $newImagePath = $this->uploadImage($_FILES['image'], $_SESSION['user_login']);
                 if ($newImagePath) {
-                    // Excluir imagem antiga
-                    // echo __DIR__ . '/../uploads/' . $user['image'];
-                    if (!empty($user['image']) && file_exists(__DIR__ . '/../uploads/' . $user['image'])) {
-                        unlink(__DIR__ . '/../uploads/' . $user['image']);
+                    if (!empty($user['image']) && file_exists(__DIR__ . '/../../public/assets/img/profiles/' . $user['image'])) {
+                        unlink(__DIR__ . '/../../public/assets/img/profiles/' . $user['image']);
                     }
                     $data['image'] = $newImagePath;
                 }
@@ -176,6 +155,8 @@ class UserController extends Controller {
             $this->redirect('/user/profile');
         }
     }
-    
 
+    public function address() {
+        $this->view('address/registration');
+    }
 }

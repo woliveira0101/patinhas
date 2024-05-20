@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Perfil do Usuário</title>
-    <link rel="stylesheet" href="/public/assets/css/default-style.css">
-</head>
-<body>
+
     <?php include __DIR__ . '/../include/header.php'; ?>
 
+    <div class="main-content">
     <div class="profile-container">
         <h1>Perfil do Usuário</h1>
 
@@ -17,7 +11,7 @@
             </div>
         <?php else: ?>
             <div class="user-image">
-                <img src="/public/assets/img/default-profile.jpg" alt="Imagem Padrão do Usuário">
+                <img src="/assets/img/profiles/default-profile.jpg" alt="Imagem Padrão do Usuário">
             </div>
         <?php endif; ?>
 
@@ -33,7 +27,5 @@
         <br>
         <a href="/admin/logout">Logout</a>
     </div>
-
+</div>
     <?php include __DIR__ . '/../include/footer.php'; ?>
-</body>
-</html>

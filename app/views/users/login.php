@@ -1,5 +1,6 @@
 <?php include __DIR__ . '/../include/header.php'; ?>
 
+<div class="main-content">
 <div class="main-container">
     <div class="card shadow-sm">
         <div class="card-body">
@@ -25,6 +26,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 
 <?php include __DIR__ . '/../include/footer.php'; ?>

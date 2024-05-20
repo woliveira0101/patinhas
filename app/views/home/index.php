@@ -1,5 +1,6 @@
 <?php include __DIR__ . '/../include/header.php'; ?>
 
+<div class="main-content">
 <div class="full-width-container">
     <div class="container-fluid">
         <div class="row">
@@ -87,5 +88,6 @@
     <div class="d-flex justify-content-center align-items-center"><a href="animais.html" type="button"
             class="btn btn-warning btn-lg m-3 mb-5">Veja mais amiguinhos disponíveis</a></div>
 </section>
+</div>
 
 <?php include __DIR__ . '/../include/footer.php'; ?>
