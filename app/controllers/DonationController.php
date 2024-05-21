@@ -148,16 +148,30 @@ class DonationController extends Controller {
                 'castrated' => isset($_POST['castrated']) ? 1 : 0,
                 'vermifuged' => isset($_POST['vermifuged']) ? 1 : 0,
             ];
-
+    
             $petModel = new PetModel();
             $petModel->update($id, $petData, 'pet_id');
-
+    
+            // Delete selected images
+            if (!empty($_POST['delete_images'])) {
+                $petImageModel = new PetImageModel();
+                foreach ($_POST['delete_images'] as $imageId) {
+                    $image = $petImageModel->getById($imageId, 'image_id');
+                    $imagePath = __DIR__ . '/../../public/assets/img/pets/' . $image['image'];
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+                    $petImageModel->delete($imageId, 'image_id');
+                }
+            }
+    
+            // Handle new image uploads
             if (!empty($_FILES['fotosPet']['name'][0])) {
                 $petImageModel = new PetImageModel();
                 foreach ($_FILES['fotosPet']['name'] as $key => $image) {
                     $imageTmpName = $_FILES['fotosPet']['tmp_name'][$key];
                     $imageExtension = pathinfo($image, PATHINFO_EXTENSION);
-
+    
                     $petImageData = [
                         'pet_id' => $id,
                         'image' => ''
@@ -167,18 +181,18 @@ class DonationController extends Controller {
                         $imageName = $id . '_' . $imageId . '_' . date('YmdHis') . '.' . $imageExtension;
                         $imagePath = __DIR__ . '/../../public/assets/img/pets/' . $imageName;
                         move_uploaded_file($imageTmpName, $imagePath);
-
+    
                         $petImageModel->update($imageId, ['image' => $imageName], 'image_id');
                     }
                 }
             }
-
+    
             $this->setFlash('success', 'Doação atualizada com sucesso!');
             $this->redirect('/admin/mydonations');
         } else {
             $this->redirect('/admin/mydonations');
         }
-    }
+    }    
 
     public function getById($id, $idColumn = 'donation_id') {
         $query = "SELECT d.*, p.pet_name, p.description, p.type, p.gender, p.breed, p.age, p.size, p.state, p.city, p.colour, p.personality, p.special_care, p.vaccinated, p.castrated, p.vermifuged 
