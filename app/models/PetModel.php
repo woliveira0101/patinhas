@@ -35,50 +35,52 @@ class PetModel extends Model {
         return $this->conn->lastInsertId();
     }
 
-    // public function update($id, $data) {
-    //     $query = "UPDATE $this->table 
-    //               SET pet_name = :pet_name, state = :state, city = :city, description = :description, 
-    //                   type = :type, gender = :gender, breed = :breed, age = :age, size = :size, 
-    //                   colour = :colour, personality = :personality, special_care = :special_care, 
-    //                   vaccinated = :vaccinated, castrated = :castrated, vermifuged = :vermifuged, 
-    //                   is_adopted = :is_adopted, updated_at = NOW() 
-    //               WHERE pet_id = :pet_id";
-
-    //     $stmt = $this->conn->prepare($query);
-
-    //     return $stmt->execute([
-    //         'pet_name' => $data['pet_name'],
-    //         'state' => $data['state'],
-    //         'city' => $data['city'],
-    //         'description' => $data['description'],
-    //         'type' => $data['type'],
-    //         'gender' => $data['gender'],
-    //         'breed' => $data['breed'],
-    //         'age' => $data['age'],
-    //         'size' => $data['size'],
-    //         'colour' => $data['colour'],
-    //         'personality' => $data['personality'],
-    //         'special_care' => $data['special_care'],
-    //         'vaccinated' => $data['vaccinated'],
-    //         'castrated' => $data['castrated'],
-    //         'vermifuged' => $data['vermifuged'],
-    //         'is_adopted' => $data['is_adopted'],
-    //         'pet_id' => $id
-    //     ]);
-    // }
-
-    // public function delete($id) {
-    //     $query = "DELETE FROM $this->table WHERE pet_id = :pet_id";
-    //     $stmt = $this->conn->prepare($query);
-    //     return $stmt->execute(['pet_id' => $id]);
-    // }
-
-    // public function getById($id) {
-    //     $query = "SELECT * FROM $this->table WHERE pet_id = :pet_id";
-    //     $stmt = $this->conn->prepare($query);
-    //     $stmt->execute(['pet_id' => $id]);
-    //     return $stmt->fetch(PDO::FETCH_ASSOC);
-    // }
+    public function getFilteredPets($filters = []) {
+        $query = "SELECT * FROM " . $this->table;
+        $conditions = [];
+        $params = [];
+    
+        if (!empty($filters['type'])) {
+            $typePlaceholders = implode(', ', array_fill(0, count($filters['type']), '?'));
+            $conditions[] = "type IN ($typePlaceholders)";
+            $params = array_merge($params, $filters['type']);
+        }
+        if (!empty($filters['gender'])) {
+            $genderPlaceholders = implode(', ', array_fill(0, count($filters['gender']), '?'));
+            $conditions[] = "gender IN ($genderPlaceholders)";
+            $params = array_merge($params, $filters['gender']);
+        }
+        if (!empty($filters['age'])) {
+            $agePlaceholders = implode(', ', array_fill(0, count($filters['age']), '?'));
+            $conditions[] = "age <= ?";
+            $params[] = max($filters['age']);
+        }
+        if (!empty($filters['size'])) {
+            $sizePlaceholders = implode(', ', array_fill(0, count($filters['size']), '?'));
+            $conditions[] = "size IN ($sizePlaceholders)";
+            $params = array_merge($params, $filters['size']);
+        }
+    
+        if ($conditions) {
+            $query .= " WHERE " . implode(" AND ", $conditions);
+        }
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute($params);
+        $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        foreach ($pets as &$pet) {
+            $queryImages = "SELECT image FROM pet_images WHERE pet_id = :pet_id";
+            $stmtImages = $this->conn->prepare($queryImages);
+            $stmtImages->bindParam(':pet_id', $pet['pet_id']);
+            $stmtImages->execute();
+            $pet['images'] = $stmtImages->fetchAll(PDO::FETCH_ASSOC);
+        }
+    
+        return $pets;
+    }
+        
+     
 
     public function getAllPets() {
         $query = "SELECT * FROM $this->table";

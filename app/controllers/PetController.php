@@ -2,11 +2,8 @@
 
 namespace App\Controllers;
 
-//require __DIR__ . '/../../vendor/autoload.php';
 use App\Models\PetModel;
 
-//require_once __DIR__ . '/../models/PetModel.php';
-//require_once __DIR__ . '/Controller.php';
 
 class PetController extends Controller
 {
@@ -19,15 +16,16 @@ class PetController extends Controller
 
     public function index()
     {
-        $pets = $this->petModel->getAllPets();
-        // Exemplo: include_once __DIR__ . '/../views/pets/index.php';
+    $filters = $_GET ?? [];
+    $pets = $this->petModel->getFilteredPets($filters);
+    $this->view('pets/index', ['pets' => $pets]);
+
     }
 
     public function show($id)
     {
-        // Implementar lógica para exibir um pet específico
-        $pet = $this->petModel->getById($id);
-        // Exemplo: include_once __DIR__ . '/../views/pets/show.php';
+        $pet = $this->petModel->getById($id, 'pet_id');
+        $this->view('pets/show', ['pet' => $pet]);
     }
 
     public function create()
@@ -38,34 +36,26 @@ class PetController extends Controller
 
     public function store($data)
     {
-        // Implementar lógica para armazenar um novo pet no banco de dados
         $this->petModel->create($data);
-        // Redirecionar para a página de listagem de pets após a criação
         header('Location: /pets');
         exit();
     }
 
     public function edit($id)
     {
-        // Implementar lógica para exibir o formulário de edição de pet
         $pet = $this->petModel->getById($id);
-        // Exemplo: include_once __DIR__ . '/../views/pets/edit.php';
     }
 
     public function update($id, $data)
     {
-        // Implementar lógica para atualizar um pet no banco de dados
         $this->petModel->update($id, $data);
-        // Redirecionar para a página de listagem de pets após a atualização
         header('Location: /pets');
         exit();
     }
 
     public function delete($id)
     {
-        // Implementar lógica para excluir um pet do banco de dados
         $this->petModel->delete($id);
-        // Redirecionar para a página de listagem de pets após a exclusão
         header('Location: /pets');
         exit();
     }

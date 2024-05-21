@@ -15,11 +15,9 @@ use App\Controllers\PetImageController;
 use App\Controllers\AdminController;
 
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-
 $controller = 'HomeController';
 $action = 'index';
 $id = null;
-
 $parts = explode('/', $uri);
 
 if (!empty($parts[0]) && !empty($parts[1])) {
@@ -34,6 +32,9 @@ if (!empty($parts[0]) && !empty($parts[1])) {
 } elseif ($uri == 'user/register') {
     $controller = 'App\\Controllers\\UserController';
     $action = 'register';
+} elseif ($uri == 'pets') {
+    $controller = 'App\\Controllers\\PetController';
+    $action = 'index';
 }
 
 if (class_exists($controller) && method_exists($controller, $action)) {
@@ -43,6 +44,9 @@ if (class_exists($controller) && method_exists($controller, $action)) {
     }
 
     $controllerInstance = new $controller();
+    // Log para depuração
+    //print_r("Controller: $controller, Action: $action, ID: " . ($id ?? 'null'));
+
     if (in_array($action, ['edit', 'show', 'delete', 'update']) && !is_null($id)) {
         $controllerInstance->$action($id);
     } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'profile', 'mydonations', 'address', 'list', 'registration'])) {
