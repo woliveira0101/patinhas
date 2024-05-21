@@ -81,7 +81,7 @@
                                 <li class="list-group-item text-center"><?= htmlspecialchars($pet['age']) ?> anos</li>
                                 <li class="list-group-item text-center"><?= htmlspecialchars($pet['city']) ?> - <?= htmlspecialchars($pet['state']) ?></li>
                             </ul>
-                            <div class="card-body d-flex justify-content-center"><a href="/pets/show/<?= htmlspecialchars($pet['pet_id']) ?>" class="card-link link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Quero conhecer melhor!</a></div>
+                            <div class="card-body d-flex justify-content-center"><a href="/pet/show/<?= htmlspecialchars($pet['pet_id']) ?>" class="card-link link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">Quero conhecer melhor!</a></div>
                         </div>
                     </div>
                 <?php endforeach; ?>

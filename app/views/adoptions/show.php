@@ -1,5 +1,6 @@
 <?php include __DIR__ . '/../include/header.php'; ?>
 
+<div class="main-content">
 <div class="container mt-5">
     <h1>Detalhes do Pedido de Adoção</h1>
     <p>ID: <?= htmlspecialchars($adoption['adoption_id']) ?></p>
@@ -23,6 +24,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Atualizar Status</button>
     </form>
+</div>
 </div>
 
 <?php include __DIR__ . '/../include/footer.php'; ?>

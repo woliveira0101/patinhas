@@ -80,7 +80,24 @@ class PetModel extends Model {
         return $pets;
     }
         
-     
+    public function getById($id, $idColumn = 'pet_id')
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE $idColumn = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $pet = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($pet) {
+            $queryImages = "SELECT * FROM pet_images WHERE pet_id = :pet_id";
+            $stmtImages = $this->conn->prepare($queryImages);
+            $stmtImages->bindParam(':pet_id', $pet['pet_id']);
+            $stmtImages->execute();
+            $pet['images'] = $stmtImages->fetchAll(PDO::FETCH_ASSOC);
+        }
+    
+        return $pet;
+    }         
 
     public function getAllPets() {
         $query = "SELECT * FROM $this->table";
