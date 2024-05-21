@@ -118,3 +118,128 @@ footer {
     margin-top: auto;
     position: relative;
 }
+
+/* Estilos personalizados para os cards de pets */
+.pet-card {
+    width: 14rem;
+    margin: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pet-card img {
+    height: 130px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.pet-card .card-body p {
+    height: 60px; /* Ajuste conforme necessário */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pet-card .list-group-item {
+    text-align: center;
+}
+
+/* Garantir que todos os cards tenham a mesma altura */
+.pet-card-fixed-height {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pet-card-fixed-height img {
+    height: 130px;
+}
+
+.pet-card-fixed-height .card-body {
+    flex-grow: 1;
+}
+
+.pet-card-fixed-height .list-group-item {
+    text-align: center;
+}
+
+.pet-card-fixed-height .card-body,
+.pet-card-fixed-height .list-group,
+.pet-card-fixed-height .list-group-item {
+    margin-bottom: 0; /* Remover margens inferiores para evitar quebra de layout */
+    padding: 5px; /* Ajustar padding para um design mais compacto */
+}
+
+.pet-card-fixed-height .card-body {
+    padding-top: 5px; /* Garantir espaçamento superior compacto */
+    padding-bottom: 5px; /* Garantir espaçamento inferior compacto */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pet-card-fixed-height .card-footer {
+    padding-top: 5px; /* Garantir espaçamento superior compacto */
+    padding-bottom: 5px; /* Garantir espaçamento inferior compacto */
+    text-align: center; /* Centralizar conteúdo do footer */
+}
+
+/* Remover margin-top das imagens dentro dos cards de pets */
+.pet-card a {
+    object-fit: cover;
+    object-position: center;
+    margin-top: 0; /* Remover qualquer margem superior */
+    margin-bottom: 0; /* Remover qualquer margem inferior */
+}
+
+/* Centralizar o link no card */
+.pet-card .card-body a.card-link {
+    display: block;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 10px; /* Ajustar a margem inferior conforme necessário */
+}
+
+
+.destaque-zoom:hover {
+    transform: scale(1.07);
+    transition: transform 0.6s;
+}
+
+.pet-card {
+    width: 18rem;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pet-card img {
+    max-height: 170px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.pet-card .card-body p {
+    height: 60px; /* Ajuste conforme necessário */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pet-card .list-group-item {
+    text-align: center;
+}
+
+.pet-card .card-body a.card-link {
+    display: block;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 10px; /* Ajustar a margem inferior conforme necessário */
+}
+
+.pet-card-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

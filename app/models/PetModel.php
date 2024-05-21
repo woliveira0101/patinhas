@@ -100,10 +100,20 @@ class PetModel extends Model {
     }         
 
     public function getAllPets() {
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM " . $this->table;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }    
+        $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($pets as &$pet) {
+            $queryImages = "SELECT image FROM pet_images WHERE pet_id = :pet_id";
+            $stmtImages = $this->conn->prepare($queryImages);
+            $stmtImages->bindParam(':pet_id', $pet['pet_id']);
+            $stmtImages->execute();
+            $pet['images'] = $stmtImages->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $pets;
+    }  
 
 }
