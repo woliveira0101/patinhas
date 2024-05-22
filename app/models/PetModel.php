@@ -9,6 +9,10 @@ class PetModel extends Model {
 
     public function create($data)
     {
+        if (is_array($data['special_care'])) {
+            $data['special_care'] = implode(';', $data['special_care']);
+        }
+
         $query = "INSERT INTO " . $this->table . " (pet_name, state, city, description, type, gender, breed, age, size, colour, personality, special_care, vaccinated, castrated, vermifuged, is_adopted, created_at, updated_at) 
         VALUES (:pet_name, :state, :city, :description, :type, :gender, :breed, :age, :size, :colour, :personality, :special_care, :vaccinated, :castrated, :vermifuged, :is_adopted, NOW(), NOW())";
 

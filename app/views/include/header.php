@@ -52,7 +52,6 @@
                         </ul>
                     <?php else: ?>
                         <a href="/user/login" class="btn btn-warning text-dark nav-item fw-bolded fs-5">Login</a>
-                        <li><a class="dropdown-item" href="/user/register">Registrar</a></li>
                     <?php endif; ?>
                 </li>
             </ul>

@@ -1,8 +1,13 @@
 <?php include __DIR__ . '/../include/header.php'; ?>
 
 <div class="main-content">
-<div class="container register-container">
-    <h2 class="text-center">Registrar</h2>
+        <section class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 mt-5 register-container">
+                    <h2 class="text-center">Registrar</h2>
+                    <?php if (!empty($error)): ?>
+                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+                    <?php endif; ?>
     <form action="/user/register" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Nome:</label>
@@ -43,7 +48,9 @@
     <div class="text-center mt-3">
         <button class="btn btn-primary" onclick="location.href='/user/register?address=true'">Adicionar Endereço</button>
     </div>
-</div>
-</div>
+    </div>
+            </div>
+        </section>
+    </div>
 
 <?php include __DIR__ . '/../include/footer.php'; ?>

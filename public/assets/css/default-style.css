@@ -243,3 +243,21 @@ footer {
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    color: #fff;
+}
+
+.register-container {
+    max-width: 400px; /* Ajuste conforme necessário */
+    width: 100%;
+}

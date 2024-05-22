@@ -3,7 +3,7 @@
 <div class="main-content">
     <div class="container">
         <h1>Editar Doação</h1>
-        <form action="/donation/update/<?= htmlspecialchars($donation['donation_id']) ?>" method="post" enctype="multipart/form-data">
+        <form id="donationForm" action="/donation/update/<?= htmlspecialchars($donation['donation_id']) ?>" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="nomePet" class="form-label fw-bolded">Nome do Pet</label>
                 <input type="text" class="form-control" id="nomePet" name="nomePet" value="<?= htmlspecialchars($donation['pet_name'] ?? '') ?>">
@@ -94,7 +94,23 @@
             </div>
             <div class="mb-3">
                 <label for="necessidadesEspeciaisPet" class="form-label fw-bolded">Necessidades Especiais do Pet</label>
-                <input type="text" class="form-control" id="necessidadesEspeciaisPet" name="necessidadesEspeciaisPet" value="<?= htmlspecialchars($donation['special_care'] ?? '') ?>">
+                <div>
+                    <input type="checkbox" id="cegueira" name="necessidadesEspeciaisPet[]" value="Cegueira" <?= in_array('Cegueira', $donation['standard_special_care'] ?? []) ? 'checked' : '' ?>>
+                    <label for="cegueira">Cegueira</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="surdez" name="necessidadesEspeciaisPet[]" value="Surdez" <?= in_array('Surdez', $donation['standard_special_care'] ?? []) ? 'checked' : '' ?>>
+                    <label for="surdez">Surdez</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="deficienciaLocomocao" name="necessidadesEspeciaisPet[]" value="Deficiências de Locomoção" <?= in_array('Deficiências de Locomoção', $donation['standard_special_care'] ?? []) ? 'checked' : '' ?>>
+                    <label for="deficienciaLocomocao">Deficiências de Locomoção</label>
+                </div>
+                <div>
+                <input type="checkbox" id="outra" name="necessidadesEspeciaisPet[]" value="Outra" <?= !empty($donation['other_special_care']) ? 'checked' : '' ?>>
+                    <label for="outra">Outra(s)</label>
+                    <input type="text" id="outrasNecessidades" name="outrasNecessidades" value="<?= htmlspecialchars($donation['other_special_care'] ?? '') ?>" <?= !empty($donation['other_special_care']) ? '' : 'disabled' ?>>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="vaccinated" class="form-label fw-bolded">Vacinado:</label>
@@ -141,25 +157,4 @@
     </div>
 </div>
 
-<script>
-    document.getElementById('fotosPet').addEventListener('change', function() {
-        const previewContainer = document.getElementById('imagePreview');
-        previewContainer.innerHTML = ''; // Clear previous previews
-        Array.from(this.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const colDiv = document.createElement('div');
-                colDiv.classList.add('col-3', 'mb-3');
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add('img-thumbnail');
-                colDiv.appendChild(img);
-                previewContainer.appendChild(colDiv);
-            };
-            reader.readAsDataURL(file);
-        });
-    });
-</script>
-
 <?php include __DIR__ . '/../include/footer.php'; ?>
-

@@ -31,7 +31,7 @@ class DonationController extends Controller {
 
     // Método para processar a submissão do formulário de doação
     public function store() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') { //var_dump($_POST);
             $petData = [
                 'pet_name' => $_POST['nomePet'],
                 'description' => $_POST['descricaoPet'],
@@ -44,7 +44,7 @@ class DonationController extends Controller {
                 'city' => $_POST['form_cidade'],
                 'colour' => $_POST['colourPet'],
                 'personality' => $_POST['personalidadePet'],
-                'special_care' => $_POST['necessidadesEspeciaisPet'],
+                'special_care' => $_POST['special_care'],
                 'vaccinated' => isset($_POST['vaccinated']) ? 1 : 0,
                 'castrated' => isset($_POST['castrated']) ? 1 : 0,
                 'vermifuged' => isset($_POST['vermifuged']) ? 1 : 0,
@@ -118,6 +118,19 @@ class DonationController extends Controller {
 
                 $donation = array_merge($donation, $pet);
                 $donation['images'] = $images;
+
+                // Processar a string special_care
+                if (!empty($donation['special_care'])) {
+                    $specialCareArray = explode(';', $donation['special_care']);
+                    $standardSpecialCare = ['Cegueira', 'Surdez', 'Deficiências de Locomoção'];
+                    $otherSpecialCare = array_diff($specialCareArray, $standardSpecialCare);
+                    $donation['standard_special_care'] = array_intersect($specialCareArray, $standardSpecialCare);
+                    $donation['other_special_care'] = implode(';', $otherSpecialCare);
+                } else {
+                    $donation['standard_special_care'] = [];
+                    $donation['other_special_care'] = '';
+                }
+
                 $this->view('donations/edit', ['donation' => $donation]);
             } else {
                 $this->setFlash('error', 'Pet não encontrado.');
@@ -143,7 +156,7 @@ class DonationController extends Controller {
                 'city' => $_POST['form_cidade'],
                 'colour' => $_POST['colourPet'],
                 'personality' => $_POST['personalidadePet'],
-                'special_care' => $_POST['necessidadesEspeciaisPet'],
+                'special_care' => $_POST['special_care'],
                 'vaccinated' => isset($_POST['vaccinated']) ? 1 : 0,
                 'castrated' => isset($_POST['castrated']) ? 1 : 0,
                 'vermifuged' => isset($_POST['vermifuged']) ? 1 : 0,

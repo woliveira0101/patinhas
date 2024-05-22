@@ -8,7 +8,7 @@ CREATE TABLE `address`  (
   `neighboorhood` varchar(100) NULL DEFAULT NULL,
   `city_name` varchar(100) NOT NULL,
   `state_name` varchar(2) NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`address_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
@@ -35,7 +35,7 @@ CREATE TABLE `answers`  (
   `adoption_id` int NOT NULL COMMENT 'FK',
   `question_id` int NOT NULL COMMENT 'FK',
   `answer_content` text NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`answer_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8;
@@ -52,7 +52,7 @@ CREATE TABLE `pet_images`  (
   `image_id` int NOT NULL AUTO_INCREMENT,
   `pet_id` int NOT NULL COMMENT 'FK',
   `image` varchar(255) NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`image_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8;
 
@@ -74,20 +74,30 @@ CREATE TABLE `pets`  (
   `castrated` boolean NULL DEFAULT NULL,
   `vermifuged` boolean NULL DEFAULT NULL,
   `is_adopted` boolean NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pet_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8;
 
 CREATE TABLE `questions`  (
   `question_id` int NOT NULL AUTO_INCREMENT,
+  `type_id` int NOT NULL COMMENT 'FK',
   `question_content` varchar(100) NOT NULL,
   `question_number` int NOT NULL,
-  `question_type` varchar(30) NULL DEFAULT NULL,
   `is_optional` boolean NULL DEFAULT NULL,
   `is_active` boolean NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`question_id`)
+) ENGINE = InnoDB CHARACTER SET = utf8;
+
+CREATE TABLE `questions_types`  (
+  `type_id` int NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(50) NULL,
+  `type_description` varchar(255) NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`type_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8;
 
 CREATE TABLE `users`  (
@@ -100,7 +110,7 @@ CREATE TABLE `users`  (
   `type` enum('doador','adotante','ambos') NULL DEFAULT NULL,
   `is_active` boolean NULL DEFAULT NULL,
   `image` varchar(255) NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8;
@@ -114,4 +124,5 @@ ALTER TABLE `answers` ADD CONSTRAINT `fk_answers_adoptions` FOREIGN KEY (`questi
 ALTER TABLE `donations` ADD CONSTRAINT `fk_donors_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 ALTER TABLE `donations` ADD CONSTRAINT `fk_donors_pets` FOREIGN KEY (`pet_id`) REFERENCES `pets` (`pet_id`) ON DELETE CASCADE;
 ALTER TABLE `pet_images` ADD CONSTRAINT `fk_image_pet` FOREIGN KEY (`pet_id`) REFERENCES `pets` (`pet_id`) ON DELETE CASCADE;
+ALTER TABLE `questions` ADD CONSTRAINT `fk_questions_types` FOREIGN KEY (`type_id`) REFERENCES `questions_types` (`type_id`) ON DELETE CASCADE;
 

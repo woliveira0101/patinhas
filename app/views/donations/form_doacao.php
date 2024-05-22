@@ -6,7 +6,7 @@
         <div class="col-8 col-md-10 mt-2 mb-3 mx-auto py-3 px-md-5 border rounded bg-body-tertiary"
             style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);">
             <h1 class="fw-bolded fs-3 text-warning text-center">Cadastre seu pet para doação</h1>
-            <form action="/donation/store" method="post" enctype="multipart/form-data">
+            <form id="donationForm" action="/donation/store" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="nomePet" class="form-label fw-bolded">Nome do Pet</label>
                     <input type="text" class="form-control" id="nomePet" name="nomePet">
@@ -101,7 +101,23 @@
                 </div>
                 <div class="mb-3">
                     <label for="necessidadesEspeciaisPet" class="form-label fw-bolded">Necessidades Especiais do Pet</label>
-                    <input type="text" class="form-control" id="necessidadesEspeciaisPet" name="necessidadesEspeciaisPet">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="cegueira" name="necessidadesEspeciaisPet[]" value="Cegueira">
+                        <label class="form-check-label" for="cegueira">Cegueira</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="surdez" name="necessidadesEspeciaisPet[]" value="Surdez">
+                        <label class="form-check-label" for="surdez">Surdez</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="deficiencia" name="necessidadesEspeciaisPet[]" value="Deficiências de Locomoção">
+                        <label class="form-check-label" for="deficiencia">Deficiências de Locomoção</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="outra" name="necessidadesEspeciaisPet[]" value="Outra">
+                        <label class="form-check-label" for="outra">Outra(s)</label>
+                    </div>
+                    <input type="text" class="form-control mt-2" id="outrasNecessidades" name="outrasNecessidades" placeholder="Especifique outras necessidades" disabled>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="vaccinated" name="vaccinated">
