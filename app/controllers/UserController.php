@@ -4,13 +4,42 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\AddressModel;
+use App\Models\DonationModel;
+use App\Models\AdoptionModel;
 
-require_once __DIR__ . '/Controller.php';
 
 class UserController extends Controller {
+    private $donationModel;
+    private $adoptionModel;
+
+    public function __construct()
+    {
+        $this->donationModel = new DonationModel();
+        $this->adoptionModel = new AdoptionModel();
+    }
+
 
     public function login() {
-        include __DIR__ . '/../views/users/login.php';
+        //include __DIR__ . '/../views/users/login.php';
+        $this->view('users/login');
+    }
+
+    public function dashboard() {
+        // Busca as últimas doações
+        $latestDonations = $this->donationModel->getLatestDonations();
+
+        // Busca as últimas adoções
+        $latestAdoptions = $this->adoptionModel->getLatestAdoptions();
+
+        // Busca pedidos de adoção pendentes
+        $pendingRequests = $this->adoptionModel->getPendingRequests();
+
+        // Renderiza a view com os dados buscados
+        $this->view('users/dashboard', [
+            'latestDonations' => $latestDonations,
+            'latestAdoptions' => $latestAdoptions,
+            'pendingRequests' => $pendingRequests
+        ]);
     }
 
     public function register() {
@@ -97,7 +126,7 @@ class UserController extends Controller {
             $_SESSION['user_login'] = $user['login'];
             $_SESSION['user_type'] = $user['type'];
 
-            header('Location: /admin/dashboard');
+            header('Location: /user/dashboard');
             exit();
         } else {
             $_SESSION['error_message'] = 'Login ou senha incorretos';

@@ -3,12 +3,20 @@
 namespace App\Controllers;
 
 use App\Models\DonationModel;
+use App\Models\AdoptionModel;
 use App\Models\PetModel;
 use App\Models\PetImageModel;
 
 class DonationController extends Controller {
 
-    // Método para exibir o formulário de doação
+    private $donationModel;
+    private $adoptionModel;
+
+    public function __construct() {
+        $this->donationModel = new DonationModel();
+        $this->adoptionModel = new AdoptionModel();
+    }
+
     public function create() {
         if (!$this->isLoggedIn()) {
             $this->setFlash('redirect_after_login', '/donations/create');
@@ -206,6 +214,16 @@ class DonationController extends Controller {
             $this->redirect('/admin/mydonations');
         }
     }    
+
+    public function showRequests($pet_id) {
+        $requests = $this->adoptionModel->getRequestsByPetId($pet_id);
+        
+        if (empty($requests)) {
+            $this->view('donations/show_requests', ['requests' => []]);
+        } else {
+            $this->view('donations/show_requests', ['requests' => $requests]);
+        }
+    }  
 
     public function getById($id, $idColumn = 'donation_id') {
         $query = "SELECT d.*, p.pet_name, p.description, p.type, p.gender, p.breed, p.age, p.size, p.state, p.city, p.colour, p.personality, p.special_care, p.vaccinated, p.castrated, p.vermifuged 

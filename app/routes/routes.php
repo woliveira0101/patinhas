@@ -46,7 +46,7 @@ if (class_exists($controller) && method_exists($controller, $action)) {
     // Log para depuração
     //print_r("Controller: $controller, Action: $action, ID: " . ($id ?? 'null'));
 
-    if (in_array($action, ['edit', 'show', 'delete', 'update', 'request', 'cancel']) && !is_null($id)) {
+    if (in_array($action, ['edit', 'show', 'delete', 'update', 'request', 'cancel', 'showrequests']) && !is_null($id)) {
         $controllerInstance->$action($id);
     } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'profile', 'mydonations', 'myadoptions', 'address', 'list', 'registration', 'request', 'success'])) {
         $controllerInstance->$action();

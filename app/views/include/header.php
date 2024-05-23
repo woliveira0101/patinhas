@@ -41,7 +41,8 @@
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             <?= htmlspecialchars($_SESSION['user_login']) ?>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start">
+                            <li><a class="dropdown-item" href="/user/dashboard">Dashboard</a></li>
                             <li><a class="dropdown-item" href="/user/profile">Meus dados</a></li>
                             <li><a class="dropdown-item" href="/admin/myadoptions">Minhas adoções</a></li>
                             <li><a class="dropdown-item" href="/admin/mydonations">Minhas doações</a></li>

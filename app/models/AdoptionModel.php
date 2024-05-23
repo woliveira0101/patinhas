@@ -38,6 +38,19 @@ class AdoptionModel extends Model {
         return $adoptionId;
     }
 
+    public function getRequestsByPetId($pet_id) {
+        $query = "SELECT a.*, u.name AS user_name, p.pet_name 
+                  FROM " . $this->table . " a
+                  JOIN users u ON a.user_id = u.user_id
+                  JOIN pets p ON a.pet_id = p.pet_id
+                  WHERE a.pet_id = :pet_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':pet_id', $pet_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getByUserId($userId) {
         $query = "SELECT d.*, p.pet_name, p.type, p.breed, a.status 
                   FROM " . $this->table . " d
@@ -59,6 +72,38 @@ class AdoptionModel extends Model {
     $stmt->bindParam(':status', $status);
     $stmt->bindParam(':adoption_id', $adoptionId);
     $stmt->execute();
+}
+
+public function getLatestAdoptions() {
+    $query = "
+        SELECT adoptions.*, users.name as user_name, pets.pet_name 
+        FROM adoptions
+        JOIN users ON adoptions.user_id = users.user_id
+        JOIN pets ON adoptions.pet_id = pets.pet_id
+        ORDER BY adoptions.request_date DESC
+        LIMIT 5
+    ";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getPendingRequests() {
+    $query = "
+        SELECT adoptions.*, users.name as user_name, pets.pet_name 
+        FROM adoptions
+        JOIN users ON adoptions.user_id = users.user_id
+        JOIN pets ON adoptions.pet_id = pets.pet_id
+        WHERE adoptions.status = 'em analise'
+        ORDER BY adoptions.request_date DESC
+    ";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 }

@@ -49,6 +49,22 @@ class DonationModel extends Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getLatestDonations() {
+        $query = "
+            SELECT donations.*, users.name as user_name, pets.pet_name 
+            FROM donations
+            JOIN users ON donations.user_id = users.user_id
+            JOIN pets ON donations.pet_id = pets.pet_id
+            ORDER BY donations.donation_date DESC
+            LIMIT 5
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     // public function update($id, $data) {
     //     $setClause = "";
     //     foreach ($data as $key => $value) {

@@ -28,11 +28,11 @@
                 <?php foreach ($donations as $donation): ?>
                     <tr>
                         <td><?= htmlspecialchars($donation['donation_date']) ?></td>
-                        <td><a href="animal_detalhes.html" class="text-dark" target="_blank"><?= htmlspecialchars($donation['pet_name']) ?></a></td>
+                        <td><a href="/pet/show/" class="text-dark" target="_blank"><?= htmlspecialchars($donation['pet_name']) ?></a></td>
                         <td><?= htmlspecialchars($donation['type']) ?></td>
                         <td><?= htmlspecialchars($donation['breed']) ?></td>
                         <td><?= htmlspecialchars($donation['status'] ?? 'Em análise') ?></td>
-                        <td><a type="button" class="btn btn-warning text-dark btn-sm" href="visualiza_ped_adocao.html">Ver Pedidos</a></td>
+                        <td><a type="button" class="btn btn-warning text-dark btn-sm" href="/donation/showRequests/<?= htmlspecialchars($donation['pet_id']) ?>">Ver Pedidos</a></td>
                         <td>
                             <a href="/donation/edit/<?= $donation['donation_id'] ?>" class="btn btn-primary btn-sm">Editar</a>
                         </td>
