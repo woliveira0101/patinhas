@@ -1,10 +1,14 @@
 <?php include __DIR__ . '/../include/header.php'; ?>
 
+<div class="main-content">
 <section class="container">
   <div class="row">
     <div class="col-8 col-md-10 mt-2 mb-3 mx-auto py-3 px-md-5 border rounded bg-body-tertiary" style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);">
       <h1 class="fw-bolded fs-3 text-warning text-center">Preencha o formulário para avaliarmos o pedido de adoção</h1>
-      <form action="/adoptions/store" method="post">
+      <form action="/adoption/store" method="post">
+        <!-- Campo oculto para armazenar o pet_id -->
+        <input type="hidden" name="pet_id" value="<?= htmlspecialchars($pet_id) ?>">
+
         <?php foreach ($questions as $index => $question): ?>
         <div class="mx-1 mb-2">
           <label for="perguntaform<?= $index ?>" class="form-label"><?= $index + 1 ?>) <?= htmlspecialchars($question['question_content']) ?></label>
@@ -22,5 +26,6 @@
     </div>
   </div>
 </section>
+</div>
 
 <?php include __DIR__ . '/../include/footer.php'; ?>

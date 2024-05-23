@@ -4,15 +4,14 @@ session_start();
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-use App\Controllers\HomeController;
-use App\Controllers\UserController;
-use App\Controllers\PetController;
+use App\Controllers\AddressController;
+use App\Controllers\AdminController;
 use App\Controllers\AdoptionController;
 use App\Controllers\DonationController;
-use App\Controllers\FormQuestionController;
-use App\Controllers\AddressController;
+use App\Controllers\HomeController;
+use App\Controllers\PetController;
 use App\Controllers\PetImageController;
-use App\Controllers\AdminController;
+use App\Controllers\UserController;
 
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $controller = 'HomeController';
@@ -47,16 +46,16 @@ if (class_exists($controller) && method_exists($controller, $action)) {
     // Log para depuração
     //print_r("Controller: $controller, Action: $action, ID: " . ($id ?? 'null'));
 
-    if (in_array($action, ['edit', 'show', 'delete', 'update']) && !is_null($id)) {
+    if (in_array($action, ['edit', 'show', 'delete', 'update', 'request', 'cancel']) && !is_null($id)) {
         $controllerInstance->$action($id);
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'profile', 'mydonations', 'address', 'list', 'registration'])) {
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'profile', 'mydonations', 'myadoptions', 'address', 'list', 'registration', 'request', 'success'])) {
         $controllerInstance->$action();
     } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && in_array($action, ['register', 'update', 'authenticate', 'store'])) {
         $data = json_decode(file_get_contents('php://input'), true);
         if (in_array($action, ['store', 'update'])) {
             if ($action == 'update' && !is_null($id)) {
                 $controllerInstance->$action($id, $data);
-            } else {
+            } else { 
                 $controllerInstance->$action($data);
             }
         } else {

@@ -19,7 +19,7 @@ CREATE TABLE `adoptions`  (
   `pet_id` int NOT NULL COMMENT 'FK',
   `request_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `acceptance_date` timestamp NULL DEFAULT NULL,
-  `status` enum('aprovado','reprovado','em analise') NULL DEFAULT 'em analise',
+  `status` enum('aprovado','reprovado','em analise', 'cancelado') NULL DEFAULT 'em analise',
   PRIMARY KEY (`adoption_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8;
 

@@ -1,6 +1,8 @@
 <?php
 
-require_once 'Model.php';
+namespace App\Models;
+
+use PDO;
 
 class QuestionAnswerModel extends Model {
     protected $table = 'question_answers';
@@ -15,12 +17,6 @@ class QuestionAnswerModel extends Model {
             'question_id' => $data['question_id'],
             'answer_content' => $data['answer_content']
         ]);
-    }
-
-    public function delete($id) {
-        $query = "DELETE FROM $this->table WHERE answer_id = :answer_id";
-        $stmt = $this->db->prepare($query);
-        return $stmt->execute(['answer_id' => $id]);
     }
 
 }

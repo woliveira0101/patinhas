@@ -3,20 +3,17 @@
 namespace App\Controllers;
 
 use App\Models\AdoptionModel;
-use App\Models\QuestionAnswerModel;
-use App\Models\FormQuestionModel;
+use App\Models\QuestionModel;
 
 class AdoptionController extends Controller
 {
     private $adoptionModel;
-    private $questionAnswerModel;
-    private $formQuestionModel;
+    private $questionModel;
 
     public function __construct()
     {
         $this->adoptionModel = new AdoptionModel();
-        $this->questionAnswerModel = new QuestionAnswerModel();
-        $this->formQuestionModel = new FormQuestionModel();
+        $this->questionModel = new QuestionModel();
     }
 
     public function index()
@@ -30,45 +27,38 @@ class AdoptionController extends Controller
         $this->view('admin/myadoptions', ['adoptions' => $adoptions]);
     }
 
-    public function create($pet_id)
+    public function request($pet_id)
     {
         if (!$this->isLoggedIn()) {
             $this->redirect('/user/login');
         }
 
-        $questions = $this->formQuestionModel->getAll();
-        $this->view('adoptions/form_adocao', ['questions' => $questions, 'pet_id' => $pet_id]);
+        $questions = $this->questionModel->getAllActiveQuestions();
+        $this->view('adoptions/request', ['questions' => $questions, 'pet_id' => $pet_id]);
     }
 
     public function store()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!$this->isLoggedIn()) {
-                $this->redirect('/user/login');
-            }
+        // Recupera o pet_id do formulário
+        $pet_id = $_POST['pet_id'];
+    
+        $data = [
+            'user_id' => $_SESSION['user_id'],
+            'pet_id' => $pet_id,
+            'status' => 'em analise',
+            'answers' => $_POST['answers']
+        ];
+    
+        $adoptionId = $this->adoptionModel->request($data);
+    
+        // Redireciona para a página de sucesso ou outra página adequada
+        header('Location: /adoption/success');
+        exit();
+    }
 
-            $data = [
-                'user_id' => $_SESSION['user_id'],
-                'pet_id' => $_POST['pet_id'],
-                'status' => 'pendente',
-                'adoption_date' => date('Y-m-d H:i:s')
-            ];
-
-            $adoptionId = $this->adoptionModel->create($data);
-
-            foreach ($_POST['answers'] as $questionId => $answerContent) {
-                $this->questionAnswerModel->create([
-                    'adoption_id' => $adoptionId,
-                    'question_id' => $questionId,
-                    'answer_content' => $answerContent
-                ]);
-            }
-
-            $this->setFlash('success', 'Pedido de adoção enviado com sucesso!');
-            $this->redirect('/admin/myadoptions');
-        } else {
-            $this->redirect('/pets');
-        }
+    public function success()
+    {
+        $this->view('adoptions/success');
     }
 
     public function show($id)
@@ -84,6 +74,19 @@ class AdoptionController extends Controller
             $this->setFlash('error', 'Pedido de adoção não encontrado.');
             $this->redirect('/admin/myadoptions');
         }
+    }
+
+    public function myAdoptions() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /user/login');
+            exit();
+        }
+
+        $userId = $_SESSION['user_id'];
+        $adoptions = $this->adoptionModel->getByUserId($userId);
+        
+        $this->view('admin/myadoptions', ['adoptions' => $adoptions]);
     }
 
     public function update($id)
@@ -109,6 +112,12 @@ class AdoptionController extends Controller
             $this->redirect('/admin/myadoptions');
         }
     }
+
+    public function cancel($id)
+{
+    $this->adoptionModel->updateStatus($id, 'cancelado');
+    echo json_encode(['success' => true]);
+}
 
     public function delete($id)
     {

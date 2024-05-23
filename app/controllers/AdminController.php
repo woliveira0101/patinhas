@@ -26,10 +26,14 @@ class AdminController extends Controller {
     }
 
     public function myAdoptions() {
-        $adoptionModel = new AdoptionModel();
-        $adoptions = $adoptionModel->getById($_SESSION['user_id'], 'adoption_id');
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('/user/login');
+        }
 
-        // Passar os dados das adoções para a view
+        $userId = $_SESSION['user_id'];
+        $adoptionModel = new AdoptionModel();
+        $adoptions = $adoptionModel->getByUserId($userId);
+
         $this->view('admin/myadoptions', ['adoptions' => $adoptions]);
     }
 
