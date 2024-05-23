@@ -49,7 +49,7 @@
 </div>
 <?php include __DIR__ . '/../include/footer.php'; ?>
 
-<script>
+<!-- <script>
 function deleteDonation(donationId) {
     if (confirm('Você tem certeza que deseja excluir esta doação?')) {
         fetch('/donation/delete/' + donationId, {
@@ -67,4 +67,4 @@ function deleteDonation(donationId) {
         });
     }
 }
-</script>
+</script> -->

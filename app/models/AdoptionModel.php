@@ -65,14 +65,13 @@ class AdoptionModel extends Model {
         return $result;
     }
 
-    public function updateStatus($adoptionId, $status)
-{
-    $query = "UPDATE adoptions SET status = :status WHERE adoption_id = :adoption_id";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':status', $status);
-    $stmt->bindParam(':adoption_id', $adoptionId);
-    $stmt->execute();
-}
+    public function updateStatus($adoption_id, $status) {
+        $query = "UPDATE " . $this->table . " SET status = :status WHERE adoption_id = :adoption_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':adoption_id', $adoption_id);
+        return $stmt->execute();
+    }
 
 public function getLatestAdoptions() {
     $query = "
@@ -103,6 +102,18 @@ public function getPendingRequests() {
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
 
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getAnswersByAdoptionId($adoptionId)
+{
+    $query = "SELECT q.question_number, q.question_content, a.answer_content 
+              FROM answers a 
+              JOIN questions q ON a.question_id = q.question_id 
+              WHERE a.adoption_id = :adoption_id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':adoption_id', $adoptionId);
+    $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 

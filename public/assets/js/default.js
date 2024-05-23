@@ -12,6 +12,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function deleteDonation(donationId) {
+        if (confirm('Você tem certeza que deseja excluir esta doação?')) {
+            fetch('/donation/delete/' + donationId, {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    response.json().then(data => {
+                        alert('Erro ao excluir a doação: ' + data.status);
+                    });
+                }
+            }).catch(error => {
+                alert('Erro ao excluir a doação: ' + error);
+            });
+        }
+    }
+    
     // Função para visualizar prévias de imagens no formulário de doação
     const fotosPetInput = document.getElementById('fotosPet');
     if (fotosPetInput) {

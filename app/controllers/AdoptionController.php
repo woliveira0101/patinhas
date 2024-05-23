@@ -4,16 +4,19 @@ namespace App\Controllers;
 
 use App\Models\AdoptionModel;
 use App\Models\QuestionModel;
+use App\Models\PetModel;
 
 class AdoptionController extends Controller
 {
     private $adoptionModel;
     private $questionModel;
+    private $petModel;
 
     public function __construct()
     {
         $this->adoptionModel = new AdoptionModel();
         $this->questionModel = new QuestionModel();
+        $this->petModel = new PetModel();
     }
 
     public function index()
@@ -68,12 +71,20 @@ class AdoptionController extends Controller
         }
 
         $adoption = $this->adoptionModel->getById($id, 'adoption_id');
-        if ($adoption) {
-            $this->view('adoptions/show', ['adoption' => $adoption]);
-        } else {
-            $this->setFlash('error', 'Pedido de adoção não encontrado.');
-            $this->redirect('/admin/myadoptions');
+
+        if (!$adoption) {
+            $this->view('errors/404');
+            return;
         }
+
+        $pet = $this->petModel->getById($adoption['pet_id']);
+        $answers = $this->adoptionModel->getAnswersByAdoptionId($id);
+    
+        $this->view('adoptions/show', [
+            'adoption' => $adoption,
+            'pet' => $pet,
+            'answers' => $answers
+        ]);
     }
 
     public function myAdoptions() {
@@ -110,6 +121,21 @@ class AdoptionController extends Controller
             $this->redirect('/admin/myadoptions');
         } else {
             $this->redirect('/admin/myadoptions');
+        }
+    }
+
+    public function updateStatus() {
+        $adoption_id = $_POST['adoption_id'];
+        $status = $_POST['status'];
+
+        if ($this->adoptionModel->updateStatus($adoption_id, $status)) {
+            // Redirecionar para uma página de sucesso ou mostrar uma mensagem
+            // header('Location: /adoption/success');
+            $this->setFlash('success', 'Pedido de adoção atualizado com sucesso!');
+        } else {
+            // Redirecionar para uma página de erro ou mostrar uma mensagem
+            // header('Location: /adoption/error');
+            $this->setFlash('error', 'Erro ao atualizar pedido de adoção.');
         }
     }
 
