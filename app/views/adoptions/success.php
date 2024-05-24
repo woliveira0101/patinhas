@@ -4,10 +4,9 @@
     <div class="container">
         <div class="row">
             <div class="col-12 mt-5">
-                <h1 class="text-success text-center">Solicitação de Adoção Enviada com Sucesso!</h1>
-                <p class="text-center mt-4">Sua solicitação de adoção foi enviada e está em análise. Entraremos em contato em breve.</p>
+                <h1 class="text-success text-center"><?= isset($message) ? htmlspecialchars($message) : 'Operação realizada com sucesso!' ?></h1>
                 <div class="text-center mt-4">
-                    <a href="/" class="btn btn-warning">Voltar para a Página Inicial</a>
+                    <button onclick="history.back()" class="btn btn-warning">Voltar</button>
                 </div>
             </div>
         </div>

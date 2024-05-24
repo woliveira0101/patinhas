@@ -54,14 +54,14 @@ class AdoptionController extends Controller
     
         $adoptionId = $this->adoptionModel->request($data);
     
-        // Redireciona para a página de sucesso ou outra página adequada
-        header('Location: /adoption/success');
+        $message = "Sua solicitação de adoção foi enviada e está em análise. Entraremos em contato em breve.";
+        $this->success($message);
         exit();
     }
 
-    public function success()
+    public function success($message = 'Operação realizada com sucesso!')
     {
-        $this->view('adoptions/success');
+        $this->view('adoptions/success', ['message' => $message]);
     }
 
     public function show($id)
@@ -129,13 +129,15 @@ class AdoptionController extends Controller
         $status = $_POST['status'];
 
         if ($this->adoptionModel->updateStatus($adoption_id, $status)) {
-            // Redirecionar para uma página de sucesso ou mostrar uma mensagem
-            // header('Location: /adoption/success');
-            $this->setFlash('success', 'Pedido de adoção atualizado com sucesso!');
+            //$this->setFlash('success', 'Pedido de adoção atualizado com sucesso!');
+            //header('Location: /adoption/success?message=Pedido de adoção atualizado com sucesso!');
+            $message = "Pedido de adoção atualizado com sucesso!";
+            $this->success($message);
         } else {
-            // Redirecionar para uma página de erro ou mostrar uma mensagem
-            // header('Location: /adoption/error');
-            $this->setFlash('error', 'Erro ao atualizar pedido de adoção.');
+            //$this->setFlash('error', 'Erro ao atualizar pedido de adoção.');
+            //header('Location: /adoption/success?message=Erro ao atualizar pedido de adoção.');
+            $message = "Erro ao atualizar pedido de adoção.";
+            $this->success($message);
         }
     }
 

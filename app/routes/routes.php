@@ -50,7 +50,7 @@ if (class_exists($controller) && method_exists($controller, $action)) {
         $controllerInstance->$action($id);
     } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'profile', 'mydonations', 'myadoptions', 'address', 'list', 'registration', 'request', 'success'])) {
         $controllerInstance->$action();
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && in_array($action, ['register', 'update', 'authenticate', 'store'])) {
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && in_array($action, ['register', 'update', 'authenticate', 'store', 'updatestatus'])) {
         $data = json_decode(file_get_contents('php://input'), true);
         if (in_array($action, ['store', 'update'])) {
             if ($action == 'update' && !is_null($id)) {
