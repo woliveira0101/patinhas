@@ -19,9 +19,9 @@ env_variables:
   GOOGLE_STORAGE_BUCKET: picture-storage
   # populate these to use the "mysql" or "postres" backends
   CLOUDSQL_CONNECTION_NAME: sample-application:us-central1:bookshelf
-  CLOUDSQL_USER: root
-  CLOUDSQL_PASSWORD: passw0rd!
-  CLOUDSQL_DATABASE_NAME: book-data
+  CLOUDSQL_USER: admin
+  CLOUDSQL_PASSWORD: Univesp2022
+  CLOUDSQL_DATABASE_NAME: patinhas
   APACHE_RUN_USER: www-data
   APACHE_RUN_GROUP: www-data
   APACHE_RUN_DIR: /var/run/apache2$SUFFIX

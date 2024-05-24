@@ -3,6 +3,9 @@
 
 **/*.env*
 
+# htaccess files
+**/*.htaccess
+
 ### macOS ###
 # General
 .DS_Store
