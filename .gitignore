@@ -6,6 +6,8 @@
 # htaccess files
 **/*.htaccess
 
+app.yml
+
 ### macOS ###
 # General
 .DS_Store
