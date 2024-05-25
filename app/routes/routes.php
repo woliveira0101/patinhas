@@ -44,7 +44,7 @@ if (class_exists($controller) && method_exists($controller, $action)) {
 
     $controllerInstance = new $controller();
     // Log para depuração
-    print_r("Controller: $controller, Action: $action, ID: " . ($id ?? 'null'));
+    // print_r("Controller: $controller, Action: $action, ID: " . ($id ?? 'null'));
 
     if (in_array($action, ['edit', 'show', 'delete', 'update', 'request', 'cancel', 'showrequests']) && !is_null($id)) {
         $controllerInstance->$action($id);

@@ -24,6 +24,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # https://medium.com/@softius/faster-docker-builds-with-composer-install-b4d2b15d0fff
 COPY ./composer.* ./
 
+EXPOSE 80
 # install
 RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
 
