@@ -1,7 +1,7 @@
 RewriteEngine On
 
 # Exceções para arquivos estáticos
-RewriteCond %{REQUEST_URI} ^/uploads/ [NC]
+RewriteCond %{REQUEST_URI} ^/public/assets/ [NC]
 RewriteRule ^ - [L]
 
 # Redirecionar todas as outras requisições para index.php

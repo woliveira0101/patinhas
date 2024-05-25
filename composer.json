@@ -1,11 +1,17 @@
 {
     "name": "root/patinhas",
     "type": "project",
+    "config": {
+        "optimize-autoloader": true
+    },
     "autoload": {
         "psr-4": {
             "App\\": "app/"
         }
     },
+    "classmap": [
+        "app/"
+    ],
     "authors": [
         {
             "name": "Wellington Oliveira",

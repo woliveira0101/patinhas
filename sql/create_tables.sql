@@ -19,7 +19,7 @@ CREATE TABLE `adoptions`  (
   `pet_id` int NOT NULL COMMENT 'FK',
   `request_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `acceptance_date` timestamp NULL DEFAULT NULL,
-  `status` enum('aprovado','reprovado','em analise', 'cancelado') NULL DEFAULT 'em analise',
+  `status` enum('aprovado','reprovado','em analise','cancelado') NULL DEFAULT 'em analise',
   PRIMARY KEY (`adoption_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8;
 
@@ -82,7 +82,7 @@ CREATE TABLE `pets`  (
 CREATE TABLE `questions`  (
   `question_id` int NOT NULL AUTO_INCREMENT,
   `type_id` int NOT NULL COMMENT 'FK',
-  `question_content` varchar(100) NOT NULL,
+  `question_content` varchar(255) NOT NULL,
   `question_number` int NOT NULL,
   `is_optional` boolean NULL DEFAULT NULL,
   `is_active` boolean NULL DEFAULT NULL,
