@@ -129,7 +129,6 @@
                 <input class="form-control" type="file" id="fotosPet" name="fotosPet[]" multiple>
             </div>
 
-            <!-- Display existing pet images -->
             <?php if (!empty($donation['images'])): ?>
                 <div class="mb-3">
                     <label class="form-label fw-bolded">Fotos atuais do Pet:</label>
@@ -149,7 +148,6 @@
                 <p>Nenhuma foto encontrada.</p>
             <?php endif; ?>
 
-            <!-- Preview for new images -->
             <div id="imagePreview" class="row"></div>
 
             <button type="submit" class="btn btn-warning mx-1 my-3">Salvar Alterações</button>

@@ -19,7 +19,6 @@ class Validator
 
     public function isValidPassword($password)
     {
-        // Altere essas regras conforme necessário para atender aos requisitos de senha do seu projeto
         $uppercase = preg_match('@[A-Z]@', $password);
         $lowercase = preg_match('@[a-z]@', $password);
         $number = preg_match('@[0-9]@', $password);
@@ -42,14 +41,14 @@ class Validator
                     if ($rule === 'email' && !$this->isValidEmail($value)) {
                         $this->errors[$field] = "{$field} não é um email válido";
                     }
-                    // Adicionando a regra de tamanho de string
+
                     if (substr($rule, 0, 6) === 'length') {
                         $length = (int)substr($rule, 7, -1);
                         if (strlen($value) !== $length) {
                             $this->errors[$field] = "{$field} deve ter exatamente {$length} caracteres";
                         }
                     }
-                    // Adicionando a regra de intervalo mínimo e máximo de números
+
                     if (substr($rule, 0, 6) === 'range') {
                         $range = explode(',', substr($rule, 7, -1));
                         $min = (int)$range[0];

@@ -4,7 +4,6 @@ session_start();
 
 require_once __DIR__ . '/../config/Database.php';
 
-// Include all models
 require_once __DIR__ . '/../models/Model.php';
 require_once __DIR__ . '/../models/AdoptionModel.php';
 require_once __DIR__ . '/../models/PetImageModel.php';
@@ -14,7 +13,6 @@ require_once __DIR__ . '/../models/UserModel.php';
 require_once __DIR__ . '/../models/DonationModel.php';
 require_once __DIR__ . '/../models/QuestionModel.php';
 
-// Include all controllers
 require_once __DIR__ . '/../controllers/Controller.php';
 require_once __DIR__ . '/../controllers/HomeController.php';
 require_once __DIR__ . '/../controllers/UserController.php';
@@ -25,7 +23,6 @@ require_once __DIR__ . '/../controllers/PetImageController.php';
 require_once __DIR__ . '/../controllers/DonationController.php';
 require_once __DIR__ . '/../controllers/AdoptionController.php';
 
-// Namespace aliases
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Controllers\AddressController;

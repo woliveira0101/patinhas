@@ -72,26 +72,22 @@ class DonationController extends Controller {
                 $donationModel = new DonationModel();
                 $donationModel->create($donationData);
 
-                // Handle image uploads
                 if (!empty($_FILES['fotosPet']['name'][0])) {
                     $petImageModel = new PetImageModel();
                     foreach ($_FILES['fotosPet']['name'] as $key => $image) {
                         $imageTmpName = $_FILES['fotosPet']['tmp_name'][$key];
                         $imageExtension = pathinfo($image, PATHINFO_EXTENSION);
 
-                        // Save the image to the database to get the image ID
                         $petImageData = [
                             'pet_id' => $petId,
                             'image' => ''
                         ];
                         $imageId = $petImageModel->create($petImageData);
                         if ($imageId) {
-                            // Rename the image
                             $imageName = $petId . '_' . $imageId . '_' . date('YmdHis') . '.' . $imageExtension;
                             $imagePath = __DIR__ . '/../../public/assets/img/pets/' . $imageName;
                             move_uploaded_file($imageTmpName, $imagePath);
 
-                            // Update the image record with the correct name
                             $petImageModel->update($imageId, ['image' => $imageName], 'image_id');
                         }
                     }
@@ -173,7 +169,6 @@ class DonationController extends Controller {
             $petModel = new PetModel();
             $petModel->update($id, $petData, 'pet_id');
     
-            // Delete selected images
             if (!empty($_POST['delete_images'])) {
                 $petImageModel = new PetImageModel();
                 foreach ($_POST['delete_images'] as $imageId) {
@@ -186,7 +181,6 @@ class DonationController extends Controller {
                 }
             }
     
-            // Handle new image uploads
             if (!empty($_FILES['fotosPet']['name'][0])) {
                 $petImageModel = new PetImageModel();
                 foreach ($_FILES['fotosPet']['name'] as $key => $image) {
@@ -256,7 +250,6 @@ class DonationController extends Controller {
                 $petModel = new PetModel();
                 $petImageModel = new PetImageModel();
 
-                // Delete pet images
                 $images = $petImageModel->getByPetId($donation['pet_id']);
                 foreach ($images as $image) {
                     $imagePath = __DIR__ . '/../../public/assets/img/pets/' . $image['image'];
@@ -266,10 +259,8 @@ class DonationController extends Controller {
                     $petImageModel->delete($image['image_id'], 'image_id');
                 }
 
-                // Delete pet
                 $petModel->delete($donation['pet_id'], 'pet_id');
 
-                // Delete donation
                 $donationModel->delete($id, 'donation_id');
 
                 $this->setFlash('success', 'Doação excluída com sucesso.');
