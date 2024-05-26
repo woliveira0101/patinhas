@@ -8,6 +8,8 @@
 
 app.yml
 
+sql/inserts.sql
+
 ### macOS ###
 # General
 .DS_Store
