@@ -1,6 +1,6 @@
 # Usar a imagem oficial do PHP com Apache
-FROM arm64v8/php:8.3-apache
-# FROM php:8.3-apache
+# FROM arm64v8/php:8.3-apache
+FROM php:8.3-apache
 
 # Atualizar pacotes e instalar dependências
 RUN apt-get update && apt-get upgrade -y \
