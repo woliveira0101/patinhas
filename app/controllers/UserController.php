@@ -185,6 +185,33 @@ class UserController extends Controller {
         }
     }
 
+    public function changepassword() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $this->getUserId();
+            $userModel = new UserModel();
+            $user = $userModel->getById($userId, 'user_id');
+    
+            $currentPassword = $_POST['current_password'] ?? null;
+            $newPassword = $_POST['new_password'] ?? null;
+    
+            if ($user && $currentPassword && password_verify($currentPassword, $user['password'])) {
+                $data = [
+                    'password' => password_hash($newPassword, PASSWORD_DEFAULT),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ];
+    
+                if ($userModel->update($userId, $data, 'user_id')) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Erro ao atualizar senha.']);
+                }
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Senha atual incorreta.']);
+            }
+        }
+    }    
+    
+    
     public function address() {
         $this->view('address/registration');
     }

@@ -125,4 +125,39 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+// Função para alterar a senha
+const changePasswordForm = document.getElementById('changePasswordForm');
+if (changePasswordForm) {
+    changePasswordForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+        if (newPassword !== confirmNewPassword) {
+            alert('As novas senhas não coincidem.');
+            return;
+        }
+
+        fetch('/user/changepassword', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `current_password=${encodeURIComponent(currentPassword)}&new_password=${encodeURIComponent(newPassword)}`
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Senha alterada com sucesso.');
+                location.reload();
+            } else {
+                alert('Erro ao alterar a senha: ' + data.message);
+            }
+        }).catch(error => {
+            alert('Erro ao alterar a senha: ' + error.message);
+        });
+    });
+}
 });

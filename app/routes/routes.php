@@ -55,7 +55,7 @@ if (!empty($parts[0]) && !empty($parts[1])) {
 }
 
 if (class_exists("App\\Controllers\\$controller") && method_exists("App\\Controllers\\$controller", $action)) {
-    if ($controller !== 'HomeController' && !isset($_SESSION['user_id']) && !in_array($uri, ['user/login', 'user/authenticate', 'user/register'])) {
+    if (!in_array($controller, ['PetController', 'HomeController']) && !isset($_SESSION['user_id']) && !in_array($uri, ['user/login', 'user/authenticate', 'user/register'])) {
         header('Location: /');
         exit();
     }
@@ -66,7 +66,7 @@ if (class_exists("App\\Controllers\\$controller") && method_exists("App\\Control
         $controllerInstance->$action($id);
     } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && in_array($action, ['index', 'create', 'login', 'register', 'dashboard', 'profile', 'mydonations', 'myadoptions', 'address', 'list', 'registration', 'request', 'success'])) {
         $controllerInstance->$action();
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && in_array($action, ['register', 'update', 'authenticate', 'store', 'updatestatus'])) {
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && in_array($action, ['register', 'update', 'authenticate', 'store', 'updatestatus', 'changepassword'])) {
         $data = json_decode(file_get_contents('php://input'), true);
         if (in_array($action, ['store', 'update'])) {
             if ($action == 'update' && !is_null($id)) {

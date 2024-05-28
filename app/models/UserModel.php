@@ -5,7 +5,7 @@ namespace App\Models;
 use PDO;
 
 class UserModel extends Model {
-    protected $table = 'users';
+    protected $table = 'users'; 
 
     // Método para autenticar um usuário
     public function authenticate($login, $password) {

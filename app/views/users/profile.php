@@ -36,12 +36,42 @@
                     <option value="ambos" <?= $user['type'] == 'ambos' ? 'selected' : '' ?>>Ambos</option>
                 </select>
             </div>
-            <button type="submit">Salvar Alterações</button>
+            <button type="submit" class="btn btn-success w-100 mb-3">Salvar Alterações</button>
         </form>
-        <!-- <br>
-        <a href="/user/logout">Logout</a>
-        <br> -->
-        <a href="/address/list" class="btn btn-primary">Meus Endereços</a>
+        <div class="btn-container">
+            <button type="button" class="btn btn-secondary me-2 w-100 mb-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Alterar Senha</button>
+            <a href="/address/list" class="btn btn-secondary w-100">Meus Endereços</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para alterar senha -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Alterar Senha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm">
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Senha Atual</label>
+                        <input type="password" class="form-control" id="currentPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Nova Senha</label>
+                        <input type="password" class="form-control" id="newPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmNewPassword" class="form-label">Confirmar Nova Senha</label>
+                        <input type="password" class="form-control" id="confirmNewPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 

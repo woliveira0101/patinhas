@@ -261,3 +261,54 @@ footer {
     max-width: 400px; /* Ajuste conforme necessário */
     width: 100%;
 }
+
+/* Estilos para alinhar e estilizar os botões */
+.btn-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-container .btn {
+    flex-grow: 1;
+    height: 50px; /* Define a altura fixa para os botões */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px; /* Certifique-se de que ambos os botões tenham o mesmo tamanho de fonte */
+    min-width: 150px; /* Define a largura mínima para os botões */
+    margin: 5px; /* Adiciona margem entre os botões */
+    color: #fff; /* Adiciona cor do texto branco */
+}
+
+.btn-primary, .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    width: 100%;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    background-color: #5a6268;
+    color: #fff;
+}
+
+.btn-container button,
+.btn-container a {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    color: #fff;
+}
