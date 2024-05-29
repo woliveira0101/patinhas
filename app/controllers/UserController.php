@@ -16,8 +16,16 @@ class UserController extends Controller {
     {
         $this->donationModel = new DonationModel();
         $this->adoptionModel = new AdoptionModel();
+
     }
 
+    public function checkSession() {
+        if (isset($_SESSION['user_id'])) {
+            echo json_encode(['logged_in' => true]);
+        } else {
+            echo json_encode(['logged_in' => false]);
+        }
+    }
 
     public function login() {
         //include __DIR__ . '/../views/users/login.php';
@@ -125,6 +133,9 @@ class UserController extends Controller {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['user_login'] = $user['login'];
             $_SESSION['user_type'] = $user['type'];
+
+            // Definindo o cookie user_id
+            // setcookie('user_id', $user['user_id'], time() + (86400 * 7), "/"); // Cookie válido por 7 dias
 
             header('Location: /user/dashboard');
             exit();

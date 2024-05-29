@@ -15,6 +15,7 @@ class DonationController extends Controller {
     public function __construct() {
         $this->donationModel = new DonationModel();
         $this->adoptionModel = new AdoptionModel();
+
     }
 
     public function create() {

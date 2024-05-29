@@ -48,7 +48,7 @@
                     <li>Porte: <?= htmlspecialchars($pet['size']) ?></li>
                     <li>Cidade: <?= htmlspecialchars($pet['city']) ?> - <?= htmlspecialchars($pet['state']) ?></li>
                 </ul>
-                <a type="button" class="btn btn-warning text-dark nav-item fw-bolded fs-5 d-flex flex-column" href="/adoption/request/<?= htmlspecialchars($pet['pet_id']) ?>">Quero adotar!</a>
+                <a type="button" id="adoptPetLink" class="btn btn-warning text-dark nav-item fw-bolded fs-5 d-flex flex-column" href="/adoption/request/<?= htmlspecialchars($pet['pet_id']) ?>">Quero adotar!</a>
             </div>
         </div>
     </section>

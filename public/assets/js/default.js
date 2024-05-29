@@ -1,4 +1,65 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+        // Função para verificar se o usuário está logado
+        function isUserLoggedIn() {
+            // verificar se o usuário está logado verificando a existência do cookie de sessão
+            // return document.cookie.includes('user_id');
+            
+            // verificar se o usuário está logado verificando a existência de $_SESSION['user_id']
+            return fetch('/user/checksession')
+            .then(response => response.json())
+            .then(data => data.logged_in);
+        }
+    
+        // Função para exibir o modal de login requerido
+        function showLoginRequiredModal() {
+            var loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'), {});
+            loginRequiredModal.show();
+        }
+    
+        // Verificar o clique no link Quero Doar
+        const donationLink = document.getElementById('donationLink');
+        if (donationLink) {
+            donationLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                // Verificar se o usuário está logado por sessão
+                isUserLoggedIn().then(loggedIn => {
+                    if (!loggedIn) {
+                        showLoginRequiredModal();
+                    } else {
+                        window.location.href = '/donation/create';
+                    }
+                });
+                // Verificar se o usuário está logado por cookie
+                // if (!isUserLoggedIn()) {
+                //     showLoginRequiredModal();
+                // } else {
+                //     window.location.href = '/donation/create';
+                // }
+            });
+        }
+    
+        // Verificar o clique no link Quero Adotar
+        const adoptPetLink = document.getElementById('adoptPetLink');
+        if (adoptPetLink) {
+            adoptPetLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                isUserLoggedIn().then(loggedIn => {
+                    if (!loggedIn) {
+                        showLoginRequiredModal();
+                    } else {
+                        window.location.href = this.getAttribute('href');
+                    }
+                });
+                // if (!isUserLoggedIn()) {
+                //     event.preventDefault();
+                //     showLoginRequiredModal();
+                // } else {
+                //     window.location.href = this.getAttribute('href');
+                // }
+            });
+        }
+        
     // Função para mostrar o formulário de endereço
     function showAddressForm() {
         const addressFormContainer = document.getElementById('addressFormContainer');

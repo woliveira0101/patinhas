@@ -14,6 +14,27 @@
 </head>
 
 <body>
+
+<!-- Modal -->
+<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginRequiredModalLabel">Login Requerido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Você precisa estar logado para acessar esta funcionalidade.
+            </div>
+            <div class="modal-footer">
+                <a href="/user/login" class="btn btn-primary">Login</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navbar -->
 <nav class="navbar fixed-top navbar-expand-md bg-body-tertiary" style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);">
     <div class="container-fluid">
         <a class="navbar-brand ms-3" href="/">
@@ -33,7 +54,7 @@
                     <a class="nav-link" href="/pets">Quero adotar</a>
                 </li>
                 <li class="nav-item px-2">
-                    <a class="nav-link" href="/donation/create">Quero doar</a>
+                    <a class="nav-link" href="/donation/create" id="donationLink">Quero doar</a>
                 </li>
                 <li class="nav-item px-2 btn-group">
                     <?php if (isset($_SESSION['user_login'])): ?>
