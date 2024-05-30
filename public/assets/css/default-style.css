@@ -283,16 +283,16 @@ footer {
 }
 
 .btn-primary, .btn-secondary {
-    background-color: #6c757d;
-    color: #fff;
+    /* background-color: #6c757d; */
+    /* color: #fff; */
     border: none;
     width: 100%;
 }
 
-.btn-primary:hover, .btn-secondary:hover {
+/* .btn-primary:hover, .btn-secondary:hover {
     background-color: #5a6268;
     color: #fff;
-}
+} */
 
 .btn-container button,
 .btn-container a {
